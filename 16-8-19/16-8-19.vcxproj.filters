@@ -16,5 +16,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="16-8-19.ino" />
+    <None Include="config.h" />
+    <None Include="Turn.ino" />
+    <None Include="Actions.ino" />
+    <None Include="MP_3.ino" />
+    <None Include="Valves.ino" />
+    <None Include="Drive.ino" />
+    <None Include="Neopixles.ino" />
+    <None Include="Pumps.ino" />
+    <None Include="Read_Bottoms.ino" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="__vm\.16-8-19.vsarduino.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
