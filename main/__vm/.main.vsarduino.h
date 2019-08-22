@@ -83,5 +83,6 @@ typedef void *__builtin_va_list;
 #include "Read_Bottoms.ino"
 #include "Turn.ino"
 #include "Valves.ino"
+#include "rotarySw.ino"
 #endif
 #endif

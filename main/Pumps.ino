@@ -6,13 +6,6 @@ all connected to Adafruit Motor Shield v2 ---->	http://www.adafruit.com/products
 shild uses with th I2C protocol
 */
 
-Adafruit_MotorShield PUMPS = Adafruit_MotorShield(); // Construct the motor shield object PUMPS with the default I2C address
-// Or, create it with a different I2C address (say for stacking) Adafruit_MotorShield PUMPS = Adafruit_MotorShield(0x61); 
-
-Adafruit_DCMotor *fanMotor = PUMPS.getMotor(2);
-Adafruit_DCMotor *waterPump = PUMPS.getMotor(3);     // Select which 'port' M2, M3 or M4. 
-Adafruit_DCMotor *airPump = PUMPS.getMotor(4);
-
 
 // --- Initilatziotion Routine from SETUP 
 void pumpsIni()

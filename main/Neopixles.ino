@@ -5,20 +5,6 @@
 
 	   ------  numbers of leds in each strip ,---      pin # of strip in config !!! ---------
 */
-#define neoMotorNo		42     //number of leds for engine NeoPixel ;
-#define neoHeadNo       12     //number of leds for head light NeoPixel
-#define neoInteriorNo   12     //number of leds for interior NeoPixel
-#define neoExhaostNo    9      //number of leds for exhaost NeoPixel ring 
-#define neoTurnLNo	  	12
-#define neoTurnRNo	  	12
-
-// ------   constructing 5 classs for each neopixle, ---      pin # of strip in config !!! ----
-Adafruit_NeoPixel neoMotor = Adafruit_NeoPixel(neoMotorNo, neoMotorPin, NEO_GRB + NEO_KHZ800);
-Adafruit_NeoPixel neoTurnL = Adafruit_NeoPixel(neoTurnLNo, neoTurnLPin, NEO_GRB + NEO_KHZ800);
-Adafruit_NeoPixel neoTurnR = Adafruit_NeoPixel(neoTurnRNo, neoTurnRPin, NEO_GRB + NEO_KHZ800);
-Adafruit_NeoPixel neoInterior = Adafruit_NeoPixel(neoInteriorNo, neoInteriorPin, NEO_GRB + NEO_KHZ800);
-Adafruit_NeoPixel neoExhaost = Adafruit_NeoPixel(neoExhaostNo, neoExhaostPin, NEO_GRB + NEO_KHZ800);
-Adafruit_NeoPixel neoHead = Adafruit_NeoPixel(neoHeadNo, neoHeadPin, NEO_GRB + NEO_KHZ800);
 
 int i = 0;
 int diplayColor = 0;     // diplay on wheel 0-red 1=green 3=yellow fault
@@ -224,11 +210,11 @@ void neoExhaostShow()
 
 void neoStopAll()
 {
-	neoMotorStop();
-	neoTurnRStop();
-	neoTurnLStop();
-	neoExhaostStop();
-	neoHeadStop();
+	neoMotorStop   ();
+	neoTurnRStop   ();
+	neoTurnLStop   ();
+	neoExhaostStop ();
+	neoHeadStop    ();
 	neoInteriorStop();
 }
 

@@ -32,6 +32,12 @@
 #define btm_Rev       A14    //push bottom down 
 #define drivePedal    A15    //push pedal drive frw rev.
 
+
+const int rtyPinB = 19;    // CLK Generating interrupts using CLK signal
+const int rtyPinA = 23;    // DT Reading DT signal
+const int rtyPinSw = 25;    // Reading Push Button switch
+
+
 // ---  O U T P U T S   ----------
 #define valve1          26      // LED 1+2 pin  // blinking motor valve pin number 
 #define valve2          27             
@@ -64,7 +70,7 @@
 
 // --- declare All functions and .INO routines  ----
 
-void neopixleIni();
+void neopixleIni();		// neopixles 
 void neoStopAll();
 
 void neoMotorStop();
@@ -75,13 +81,13 @@ void neoHeadStop();
 void neoInteriorStop();
 
 void neoMotorShow();
-void neoTurrnRShow();
-void neoTurnLShow();
+void neoTurnRShow(int c);
+void neoTurnLShow(int c);
 void neoExhaostShow();
 void neoHeadShow();
-void neoInteriorShow();
+void neoInteriorShow(int c);
 
-void mp3Ini();
+void mp3Ini();				// MP-3 
 void playSound(char* path);
 
 void nextSong(int i);
@@ -90,7 +96,7 @@ void nextStarter(int i);
 void nextHorn(int i);
 void nextCommand(int i);
 
-void motorValvesIni();
+void motorValvesIni();		// all the rest 
 void motorValves(bool valvesOn, bool valvesFast);
 void readBottomsIni();
 void readBottoms();
@@ -100,6 +106,6 @@ void lightValves();
 void action();
 void turnIni();
 void vinkers(bool turnLOn, bool turnROn, bool turnFast);
-//void turnLights();
-void driveini();
-
+void driveIni();
+void rtySwIni();
+void checkRotarySw();

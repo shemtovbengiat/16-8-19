@@ -10,8 +10,31 @@
 #include "utility/Adafruit_MS_PWMServoDriver.h"
 #include <btsmotordriver.h>
 #include <Adafruit_NeoPixel.h>
+
+//   -----   MP 3 -----------
 Adafruit_VS1053_FilePlayer musicPlayer = Adafruit_VS1053_FilePlayer(SHIELD_RESET, SHIELD_CS, SHIELD_DCS, DREQ, CARDCS);
 
+// ------  NeoPixles -  constructing 6 classs for each neopixle, ---      pin # of strip in config !!! ----
+#define neoMotorNo		42     //number of leds for engine NeoPixel ;
+#define neoHeadNo       12     //number of leds for head light NeoPixel
+#define neoInteriorNo   12     //number of leds for interior NeoPixel
+#define neoExhaostNo    9      //number of leds for exhaost NeoPixel ring 
+#define neoTurnLNo	  	12
+#define neoTurnRNo	  	12
+
+Adafruit_NeoPixel neoMotor =    Adafruit_NeoPixel(neoMotorNo,    neoMotorPin, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel neoTurnL =    Adafruit_NeoPixel(neoTurnLNo,    neoTurnLPin, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel neoTurnR =    Adafruit_NeoPixel(neoTurnRNo,    neoTurnRPin, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel neoInterior = Adafruit_NeoPixel(neoInteriorNo, neoInteriorPin, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel neoExhaost =  Adafruit_NeoPixel(neoExhaostNo,  neoExhaostPin, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel neoHead =     Adafruit_NeoPixel(neoHeadNo,     neoHeadPin, NEO_GRB + NEO_KHZ800);
+
+// ----  Pumps - Construct the motor shield object with the default I2C address
+Adafruit_MotorShield PUMPS = Adafruit_MotorShield(); 
+
+Adafruit_DCMotor *fanMotor =  PUMPS.getMotor(2);
+Adafruit_DCMotor *waterPump = PUMPS.getMotor(3);     // Select which 'port' M2, M3 or M4. 
+Adafruit_DCMotor *airPump =   PUMPS.getMotor(4);
 
 // ----- G L O B A L    V A R I A B L E S  ----------------
 
@@ -73,6 +96,8 @@ void setup()
 	neopixleIni();
 
 	playSound("comnd/1.MP3");
+	rtySwIni();
+
 }
 //---  end of  SETUP routine  ---
 
