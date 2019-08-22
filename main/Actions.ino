@@ -4,28 +4,41 @@
  here we make decisions on what to do with the inputs and outputs based on global variables on the main file
  */
 
-
-
 void action()
 {
 	// --------  Drive Motors  section  -------------------------
 
 	if (motorOn == 0)         // start bottom not pushed  yet.. - DO Nothing
 	{
-		//musicPlayer.stopPlaying()        ---- ??? ?????
+		
+	if (musicPlayer.playingMusic) {
+		musicPlayer.stopPlaying();
+		}
 		motorValves(0, 0);                        // 2 leds in motor (x,y)( x- 1=blink leds 0=off,  y- 1= fast blink 0=slow blink 
-		neoMotorStop();
+		//neoMotorStop();
 		pumps(0, 0);                              // water and air pumps fan motor (0=off 1=on slow, 1=fast 0=slow)
 		//musicPlayer.sineTest(0x44, 500);       // Make a tone to indicate VS1053 is working
 		neoInteriorShow(0);
+		//neoMotorShow();
+		//nextCommand(6);          // low rpm sound 1000rpm
+
 	}
 
 	if (motorOn == 1 && driveEnable == 0)          //   START bottom pushed motorOn ==1
 	{
 		motorValves(1, 0);                    //rpm 1000 = slow
 		pumps(1, 0);                          // water and air pumps fan motor (0=off 1=on slow, 1=fast 0=slow)
-		neoMotorShow();
+		//neoMotorShow();
 		neoInteriorShow(1);
+
+		//  ---- starter switch -  check to see if pushed again   ----------------------
+
+		if (startBtmNumber != startBtmNumberOld)
+		{
+			Serial.println(startBtmNumber);
+			startBtmNumberOld = startBtmNumber;
+			nextStarter(startBtmNumber);
+		}
 	}
 
 	if (motorOn == 1 && driveEnable == 1)        // verify that no driving if first set F or R and only then drive pedal push

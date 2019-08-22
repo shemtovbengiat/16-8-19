@@ -1,29 +1,31 @@
 //  ------------   main file --------------------
 
 #define DEBUG
-
+#include <Adafruit_VS1053.h> 
 #include "config.h"
 #include <SPI.h>
 #include <SD.h>
-#include <Adafruit_VS1053.h> 
 #include <Wire.h>
 #include <Adafruit_MotorShield.h>
 #include "utility/Adafruit_MS_PWMServoDriver.h"
 #include <btsmotordriver.h>
 #include <Adafruit_NeoPixel.h>
+Adafruit_VS1053_FilePlayer musicPlayer = Adafruit_VS1053_FilePlayer(SHIELD_RESET, SHIELD_CS, SHIELD_DCS, DREQ, CARDCS);
+
 
 // ----- G L O B A L    V A R I A B L E S  ----------------
 
 volatile int motorOn = 0;              // 1 ! true = start engine slow, light valves, pumps, fan and running mp3 starter sound. motorOn=0 all OFF
 volatile int drivePedalOn = 0;         // pedal on = 1=driving FRW REV 0= STOP 
 
-volatile int startBtmNumber = 0;            // starter sounds file # 0-18  in sd card, randomly selected when start bottom pushed
+volatile int startBtmNumber = 0;       // starter sounds file # 0-18  in sd card, randomly selected when start bottom pushed
+volatile int startBtmNumberOld = 0;    // to avoide repeting
 
 volatile int forwardOn = 0;            // forward on = 1 = drive with pedalOn = 1 together
 volatile int reverseOn = 0;            // reverse on = 1 = drive with pedalOn = 1 together
 
-volatile int turnROn = 0;        // right signal "vinker" = 1 = blinking,     0> off
-volatile int turnLOn = 0;         // left signal "vinker" = 1 = blinking,     0> off
+volatile int turnROn = 0;			   // right signal "vinker" = 1 = blinking,     0> off
+volatile int turnLOn = 0;			   // left signal "vinker" = 1 = blinking,     0> off
 volatile int turnFast = 0;
 
 volatile bool driveEnable = 0;         // safty switch both first d or r and pedal will allow driving.!!   action routine
@@ -54,7 +56,7 @@ int songCount = 0;
 
 void setup()
 {
-	Serial.begin(9600);
+	Serial.begin(115200);
 	randomSeed(analogRead(0));    // for not requering random numbers
 
 #if defined(DEBUG)
@@ -70,7 +72,7 @@ void setup()
 	driveIni();
 	neopixleIni();
 
-	playSound("TRACK02.MP3");
+	playSound("comnd/1.MP3");
 }
 //---  end of  SETUP routine  ---
 
@@ -79,7 +81,7 @@ void loop() {
 
 	readBottoms();
 	action();
-	runNeoPixles();
+	//runNeoPixles();
 
 }
 // ---  END of loop routine  -----

@@ -1,14 +1,11 @@
 
 /*
-
-/*  --------------  NeoPixels on the tractor -----------
+  --------------  NeoPixels on the tractor -----------
 	   ===================8-2019 ------------
 
-There are set of  strips of neopixles in the tractor:
+	   ------  numbers of leds in each strip ,---      pin # of strip in config !!! ---------
 */
-
-//    ------  numbers of leds in each strip ,---      pin # of strip in config !!! ---------
-#define neoMotorNo      42     //number of leds for engine NeoPixel 
+#define neoMotorNo		42     //number of leds for engine NeoPixel ;
 #define neoHeadNo       12     //number of leds for head light NeoPixel
 #define neoInteriorNo   12     //number of leds for interior NeoPixel
 #define neoExhaostNo    9      //number of leds for exhaost NeoPixel ring 
@@ -43,7 +40,7 @@ void neopixleIni()
 	neoInterior.begin();
 	neoExhaost.begin();
 
-	stopAll();
+	neoStopAll();
 }//---END of INITIALIZATION routine
 
 
@@ -68,12 +65,12 @@ void runNeoPixles()
 	else
 	{
 		neoInteriorShow(0);		// inetirior goes RED=0 - malfunction!!
-		stopAll();
+		neoStopAll();
 	}
 }
 
-
-void neoTurnLshow(int c)	// 0-no light    1-yellow-warning light = 255,120,0       2-red    3-green   4-blue    5-random
+// 0-no light  1-yellow-warning light = 255,120,0  2-red 3-green 4-blue 5-random
+void neoTurnLshow(int c)
 {
 	if (i < neoTurnL.numPixels())
 	{
@@ -99,9 +96,8 @@ void neoTurnLshow(int c)	// 0-no light    1-yellow-warning light = 255,120,0    
 		}
 		else if (c == 5)
 		{
-			neoTurnR.setPixelColor(i, random(0, 100), random(0, 250), random(0, 250));
+			neoTurnL.setPixelColor(i, random(0, 100), random(0, 250), random(0, 250));
 		}
-
 
 		neoTurnL.show();
 		i++;
@@ -111,6 +107,8 @@ void neoTurnLshow(int c)	// 0-no light    1-yellow-warning light = 255,120,0    
 		i = 0;
 	}
 }
+
+
 void neoTurnRshow(int c)			// interior light - RED motor OFF    GREEN - motor ON
 {
 	if (i < neoTurnR.numPixels())
@@ -152,10 +150,7 @@ void neoTurnRshow(int c)			// interior light - RED motor OFF    GREEN - motor ON
 
 
 
-
-
-
-void neoInteriorShow(int c)			// interior light - 0 = RED = motor OFF   1 = GREEN = motor ON
+void neoInteriorShow(int c)	// interior light - 0 = RED = motor OFF   1 = GREEN = motor ON
 {
 	if (i < neoInterior.numPixels())
 	{
@@ -180,7 +175,7 @@ void neoMotorShow()
 {
 	if (i < neoMotor.numPixels())
 	{
-		neoMotor.setPixelColor(i, random(60, 155), random(10, 160), random(40, 155));
+		neoMotor.setPixelColor(i, random(60, 100), random(10, 100), random(40, 100));
 		neoMotor.show();
 		i++;
 	}
@@ -227,13 +222,14 @@ void neoExhaostShow()
 //*********** STOP routines -  turn OFF the NeoPixles***************
 //   S T O P   A L L but not neoInteriorStop the only light that  stays on  
 
-void stopAll()
+void neoStopAll()
 {
 	neoMotorStop();
 	neoTurnRStop();
 	neoTurnLStop();
 	neoExhaostStop();
 	neoHeadStop();
+	neoInteriorStop();
 }
 
 void neoMotorStop()  //  motor

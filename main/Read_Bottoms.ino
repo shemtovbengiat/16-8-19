@@ -18,9 +18,9 @@ int btm_lState = 0;           // Left turn signal
 int lastbtm_lState = 0;
 int btm_rState = 0;           // Right turn signal
 int lastbtm_rState = 0;
-int btm_Fw_state = 0;           // Up = Forward drive
+int btm_Fw_state = 0;         // Up = Forward drive
 int lastbtm_Fw_state = 0;
-int btm_Rev_state = 0;           // Down = Reverse drive
+int btm_Rev_state = 0;        // Down = Reverse drive
 int lastbtm_Rev_state = 0;
 int drivePedalState = 0;      // Foot Pedal for drive FRW. & REV.
 int lastDrivePedalState = 0;
@@ -52,10 +52,10 @@ void readBottoms()
 			Serial.println(" [ START  ] ");
 			delay(20);
 			motorOn = !motorOn;
-			startBtmNumber = random(0,18);       // random start sound !!!!!!!!!!!!!!!!!!!!
-			nextStarter(startBtmNumber);          // low rpm sound 1000rpm
-
+			startBtmNumber = random(0, 18);
 		}
+//		
+
 	}
 	lastbtmStartState = btmStartState;
 
@@ -67,7 +67,7 @@ void readBottoms()
 		{
 			Serial.println(" [ HORN  ] ");
 			delay(20);
-			hornBtmNumber = random(0, 10);
+			hornBtmNumber = random(1, 5);
 		}
 	}
 	lastbtmHornState = btmHornState;

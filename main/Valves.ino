@@ -88,7 +88,8 @@ void lightValves()   // ---- light valve sub routine according to fast=1 or slow
 		digitalWrite(valve2, valve2State);   // set the LED with the ledState of the variable
 	}
 	return;
-}  //  ----  end of light valves routine 
+}
+  //  ----  end of light valves routine 
 
 
 

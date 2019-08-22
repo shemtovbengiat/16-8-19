@@ -53,7 +53,7 @@
 #define redBrakesPin    A2
 
 
-#define neoMotorPin     42     //data pin for engine NeoPixel   - PWM
+#define neoMotorPin     10     //data pin for engine NeoPixel   - PWM
 #define neoTurnLPin     45    //data pin for left vinkers front and back NeoPixel- PWM
 #define neoTurnRPin     46    //data pin for right vinkers front and back NeoPixel - PWM
 #define neoInteriorPin  10     //data pin for interior NeoPixel - PWM
@@ -64,8 +64,32 @@
 
 // --- declare All functions and .INO routines  ----
 
+void neopixleIni();
+void neoStopAll();
+
+void neoMotorStop();
+void neoTurnRStop();
+void neoTurnLStop();
+void neoExhaostStop();
+void neoHeadStop();
+void neoInteriorStop();
+
+void neoMotorShow();
+void neoTurrnRShow();
+void neoTurnLShow();
+void neoExhaostShow();
+void neoHeadShow();
+void neoInteriorShow();
+
 void mp3Ini();
 void playSound(char* path);
+
+void nextSong(int i);
+void nextVocal(int i);
+void nextStarter(int i);
+void nextHorn(int i);
+void nextCommand(int i);
+
 void motorValvesIni();
 void motorValves(bool valvesOn, bool valvesFast);
 void readBottomsIni();
@@ -76,7 +100,6 @@ void lightValves();
 void action();
 void turnIni();
 void vinkers(bool turnLOn, bool turnROn, bool turnFast);
-void turnLights();
+//void turnLights();
 void driveini();
-void neopixleIni();
 
