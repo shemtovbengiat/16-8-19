@@ -1,21 +1,20 @@
-
 /*
- Turns on and off 2 arrowa left and right (Vinkers) without using the delay() function.
+     Turns on and off 2 arrowa left and right (Vinkers) without using the delay() function.
  */
 
 int turnLState = 0;                  // ledState used to set the LED
 int turnRState = 0;
 
-unsigned long previousLMillis = 0;      // will store last time LED was updated
-unsigned long previousRMillis = 0;
+unsigned long previousLms = 0;      // will store last time LED was updated
+unsigned long previousRms = 0;
 
-long turnLRTiming = 0;                // interval at which to blink (10 fast 200 slowest in milliseconds)
+long turnLRTiming = 0;                // interval at which to blink 
 
-// ----Turn -  Initialization  in SETUP routine--------
+// ---- Turn Initialization  in SETUP routine--------
 void turnIni()
 {
-	pinMode(turnL, OUTPUT);              // set the motor  Valves digital pin as output:
-	pinMode(turnR, OUTPUT);
+	pinMode(turnL_Pin, OUTPUT);              // set the vinkers digital pin as output:
+	pinMode(turnR_Pin, OUTPUT);
 }
 //--- END of Ini routine 
 
@@ -25,27 +24,27 @@ void turnIni()
 
 void vinkers(bool turnLOn, bool turnROn, bool turnFast)      // turnfast -( 0=slowe 1=fast )
 {
-	bool _turnLOn = turnLOn;                     // for internal use                   
-	bool _turnROn = turnROn;                     // for internal use                   
-	bool _turnFast = turnFast;
+	bool L = turnLOn;                      // for internal use                   
+	bool R = turnROn;                      // for internal use                   
+	bool F = turnFast;					   // for internal use       
 
-	if (_turnLOn == 0 && _turnROn == 0)
+	if (L == 0 && R == 0)
 	{
-		turnLRTiming = 0;                  // interval at which to blink (10 fast 200 slowest in milliseconds)
-		digitalWrite(turnL, 1);
-		digitalWrite(turnR, 1);               // 1 = RELAY OFF ,pin at 0 activate relay by going ground !!!!!!!!!!!!
+
+		digitalWrite(turnL_Pin, 1);
+		digitalWrite(turnR_Pin, 1);           // 1 = RELAY OFF ,pin at 0 activate relay by going ground !!!!!!!!!!!!
 	}
-	else if (_turnFast == 0)  // motor on slow valves 
+	else if (F == 0)                      // regular vinker - slow  
 	{
-		turnLRTiming = 1400;                 //  slow 200 milliseconds)
-		turnLights(_turnLOn, _turnROn);                     // service routine next peragaph 
+		turnLRTiming = 1400;              //  slow 200 milliseconds)
+		turnLights(L, R);                 // service routine next peragaph 
 	}
-	else if (_turnFast == 1)
+	else if (F == 1)                      // both vinkers  - emergency lights - fast 
 	{
 		turnLRTiming = 700;               //  fast 60 milliseconds)
-		turnLights(_turnLOn, _turnROn);                     // service routine next peragaph 
+		turnLights(L, R);                 // service routine next peragaph 
 	}
-	return;                                             // do nothing with the leds go back empty
+	return;                               // do nothing with the leds go back empty
 }
 
 
@@ -55,11 +54,10 @@ void turnLights(bool L, bool R)
 {
 	if (L == 1)
 	{
-		unsigned long currentLMillis = millis();
-		if (currentLMillis - previousLMillis >= turnLRTiming)
+		unsigned long currentLms = millis();
+		if (currentLms - previousLms >= turnLRTiming)
 		{
-			previousLMillis = currentLMillis;   // save the last time you blinked the LED
-			// if the turn light is off turn it on and vice-versa  --- valve 1 *********************************
+			previousLms = currentLms;  
 			if (turnLState == 0)
 			{
 				turnLState = 1;
@@ -68,15 +66,15 @@ void turnLights(bool L, bool R)
 				turnLState = 0;       // 1 = RELAY OFF ,pin at 0 activate relay by going ground !!!!!!!!!!!!
 			}
 		}
-		digitalWrite(turnL, turnLState);
+		digitalWrite(turnL_Pin, turnLState);
 	}
 
 	if (R == 1)
 	{
-		unsigned long currentRMillis = millis();            //  valve 2 *********************************
-		if (currentRMillis - previousRMillis >= turnLRTiming)
+		unsigned long currentRms = millis();          
+		if (currentRms - previousRms >= turnLRTiming)
 		{
-			previousRMillis = currentRMillis;   // save the last time you blinked the LED
+			previousRms = currentRms;   
 			if (turnRState == 0)
 			{
 				turnRState = 1;
@@ -85,7 +83,7 @@ void turnLights(bool L, bool R)
 				turnRState = 0;     // 1 = RELAY OFF ,pin at 0 activate relay by going ground !!!!!!!!!!!!
 			}
 		}
-		digitalWrite(turnR, turnRState);   // set the LED with the ledState of the variable
+		digitalWrite(turnR_Pin, turnRState);   // set the LED with the ledState of the variable
 	}
 }// --- END of TURNlight  routine 
 

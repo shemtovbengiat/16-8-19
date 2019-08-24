@@ -20,8 +20,8 @@ long valve2Timing = 0;
 // ----valves   Initialization  in SETUP routine--------
 void motorValvesIni()
 {
-	pinMode(valve1, OUTPUT);              // set the motor  Valves digital pin as output:
-	pinMode(valve2, OUTPUT);
+	pinMode(valve1Pin, OUTPUT);              // set the motor  Valves digital pin as output:
+	pinMode(valve2Pin, OUTPUT);
 	return;
 }
 //  ----- end of Ini routine 
@@ -38,8 +38,8 @@ void motorValves(bool valvesOn, bool valvesFast)
 	{
 		valve1Timing = 0;                  // interval at which to blink (10 fast 200 slowest in milliseconds)
 		valve2Timing = 0;
-		digitalWrite(valve1, 0);
-		digitalWrite(valve2, 0);
+		digitalWrite(valve1Pin, 0);
+		digitalWrite(valve2Pin, 0);
 	}
 	else if (_valvesFast == 0)  // motor on slow valves 
 	{
@@ -71,7 +71,7 @@ void lightValves()   // ---- light valve sub routine according to fast=1 or slow
 		else {
 			valve1State = LOW;
 		}
-		digitalWrite(valve1, valve1State);
+		digitalWrite(valve1Pin, valve1State);
 	}
 
 	unsigned long current2Millis = millis();            //  valve 2 *********************************
@@ -85,7 +85,7 @@ void lightValves()   // ---- light valve sub routine according to fast=1 or slow
 		else {
 			valve2State = LOW;
 		}
-		digitalWrite(valve2, valve2State);   // set the LED with the ledState of the variable
+		digitalWrite(valve2Pin, valve2State);   // set the LED with the ledState of the variable
 	}
 	return;
 }

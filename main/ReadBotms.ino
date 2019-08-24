@@ -1,7 +1,8 @@
 
 
 /*
-reads all the bottoms and set an interupt to get attention from main routine
+
+  -----  reads all the bottoms and set global variables for the Actions routine
 */
 
 bool btmStartState = 0;       // Strat / Stop
@@ -25,26 +26,26 @@ int lastbtm_Rev_state = 0;
 int drivePedalState = 0;      // Foot Pedal for drive FRW. & REV.
 int lastDrivePedalState = 0;
 
-// ---   initionlize in SETUP routine ----
+// ---   initionlized in SETUP routine ----
 void readBottomsIni()
 {
-	pinMode(btmStart,   INPUT_PULLUP);    // define all bottoms with pullup resistor      
-	pinMode(btmHorn,    INPUT_PULLUP);
-	pinMode(wheelBtm1,  INPUT_PULLUP);
-	pinMode(wheelBtm2,  INPUT_PULLUP);
-	pinMode(wheelBtm3,  INPUT_PULLUP);
-	pinMode(btm_l,      INPUT_PULLUP);
-	pinMode(btm_r,      INPUT_PULLUP);
-	pinMode(btm_Fw,     INPUT_PULLUP);
-	pinMode(btm_Rev,    INPUT_PULLUP);
-	pinMode(drivePedal, INPUT_PULLUP);
+	pinMode(btmStartPin,   INPUT_PULLUP);    // define all bottoms with pullup resistor      
+	pinMode(btmHornPin,    INPUT_PULLUP);
+	pinMode(wheelBtm1Pin,  INPUT_PULLUP);
+	pinMode(wheelBtm2Pin,  INPUT_PULLUP);
+	pinMode(wheelBtm3Pin,  INPUT_PULLUP);
+	pinMode(btm_L_pin,      INPUT_PULLUP);
+	pinMode(btm_R_pin,      INPUT_PULLUP);
+	pinMode(btm_FwPin,     INPUT_PULLUP);
+	pinMode(btm_RevPin,    INPUT_PULLUP);
+	pinMode(drivePedalPin, INPUT_PULLUP);
 }  // --- END of readBottoms INI rotine
 
-// ----  initionlize in LOOP routine
+// ---- Initionlized in Main routine ( in the loop )
 void readBottoms()
 {
 	// --------------------------------------------- btm  START ENGINE -MOTOR ON-------------------------
-	btmStartState = digitalRead(btmStart);
+	btmStartState = digitalRead(btmStartPin);
 	if (btmStartState != lastbtmStartState)
 	{
 		if (btmStartState == LOW)
@@ -54,13 +55,12 @@ void readBottoms()
 			motorOn = !motorOn;
 			startBtmNumber = random(0, 18);
 		}
-//		
 
 	}
 	lastbtmStartState = btmStartState;
 
 	// ----------------------------  ------------------ btm HORN -HORN PUSHED-------------------------
-	btmHornState = digitalRead(btmHorn);
+	btmHornState = digitalRead(btmHornPin);
 	if (btmHornState != lastbtmHornState)
 	{
 		if (btmHornState == LOW)
@@ -74,7 +74,7 @@ void readBottoms()
 
 	// -------------------------------------------------- btm  RIGHT SIGNAL- -turnROn------------------------
 
-	btm_rState = digitalRead(btm_r);
+	btm_rState = digitalRead(btm_R_pin);
 	if (btm_rState != lastbtm_rState)
 	{
 		if (btm_rState == LOW)
@@ -82,7 +82,7 @@ void readBottoms()
 			Serial.println(" [ Right Turn ] ");
 			delay(15);
 			turnROn = !turnROn;         // toggel switch !!!
-			nextCommand(4);          // low rpm sound 1000rpm
+			nextCommand(4);             // play file # 4 in the /cmnd/x.mp3 subdirectory in sd card  - prerecorded
 
 		}
 	}
@@ -90,7 +90,7 @@ void readBottoms()
 
 	// -------------------------------------------------- btm  LEFT SIGNAL-turnLOn-------------------------
 
-	btm_lState = digitalRead(btm_l);
+	btm_lState = digitalRead(btm_L_pin);
 	if (btm_lState != lastbtm_lState)
 	{
 		if (btm_lState == LOW)
@@ -102,8 +102,8 @@ void readBottoms()
 	}
 	lastbtm_lState = btm_lState;
 
-	// ------------------------------------------- btm   DOWN = REVERSE --reverseOn------------------------
-	btm_Rev_state = digitalRead(btm_Rev);
+	// ------------------------------------------- btm   REVERSE -- reverseOn------------------------
+	btm_Rev_state = digitalRead(btm_RevPin);
 	if (btm_Rev_state != lastbtm_Rev_state)
 	{
 		if (btm_Rev_state == LOW)
@@ -115,8 +115,8 @@ void readBottoms()
 	}
 	lastbtm_Rev_state = btm_Rev_state;
 
-	// ------------------------------------------- btm  UP = FORWARD ---forwardOn-----------------------
-	btm_Fw_state = digitalRead(btm_Fw);
+	// ------------------------------------------- btm  FORWARD -- forwardOn-----------------------
+	btm_Fw_state = digitalRead(btm_FwPin);
 	if (btm_Fw_state != lastbtm_Fw_state)
 	{
 		if (btm_Fw_state == LOW)
@@ -130,49 +130,49 @@ void readBottoms()
 
 	// -------------------------------------------------- WHEEL BOTTOM # 1  ----wheelBottom1Pushed----------------------
 
-	wheelBtm1State = digitalRead(wheelBtm1);
+	wheelBtm1State = digitalRead(wheelBtm1Pin);
 	if (wheelBtm1State != lastWheelBtm1State)
 	{
 		if (wheelBtm1State == LOW)
 		{
 			Serial.println(" [ WHEEL SW  1  ] ");
 			delay(15);
-			wheelBottom1Pushed = random(1, 11);         // random switch !!!!!!!!!!!!!!!!!!!!
+			wheelBottom1Pushed = random(1, 11);         // random switch (x, y) y # of files in sd card subdirectory
 		}
 	}
 	lastWheelBtm1State = wheelBtm1State;
 
-	// -------------------------------------------------- WHEEL BOTTOM # 2  --------------------------
+	// -------------------------------------------------- WHEEL BOTTOM # 2  ----- wheelBottom2Pushed ---------------------
 
-	wheelBtm2State = digitalRead(wheelBtm2);
+	wheelBtm2State = digitalRead(wheelBtm2Pin);
 	if (wheelBtm2State != lastWheelBtm2State)
 	{
 		if (wheelBtm2State == LOW)
 		{
 			Serial.println(" [ WHEEL SW  2  ] ");
 			delay(15);
-			wheelBottom2Pushed = random(2, 12);       // random switch !!!!!!!!!!!!!!!!!!!!
+			wheelBottom2Pushed = random(2, 12);       // random switch (x, y) y # of files in sd card subdirectory
 		}
 	}
 	lastWheelBtm2State = wheelBtm2State;
 
-	// -------------------------------------------------- WHEEL BOTTOM # 3  --------------------------
+	// -------------------------------------------------- WHEEL BOTTOM # 3  ---- wheelBottom3Pushed ----------------------
 
-	wheelBtm3State = digitalRead(wheelBtm3);
+	wheelBtm3State = digitalRead(wheelBtm3Pin);
 	if (wheelBtm3State != lastWheelBtm3State)
 	{
 		if (wheelBtm3State == LOW)
 		{
 			Serial.println(" [ WHEEL SW  3  ] ");
 			delay(15);
-			wheelBottom3Pushed = random(3, 13);       // random switch !!!!!!!!!!!!!!!!!!!!
+			wheelBottom3Pushed = random(3, 13);       // random switch (x, y) y # of files in sd card subdirectory
 		}
 	}
 	lastWheelBtm3State = wheelBtm3State;
 
-	// -------------------------------------------------- Drive Pedal  ---drivePedalOn-----------------------
+	// -------------------------------------------------- Drive Pedal  -- drivePedalOn -----------------------
 
-	drivePedalState = digitalRead(drivePedal);
+	drivePedalState = digitalRead(drivePedalPin);
 	if (drivePedalState != lastDrivePedalState)
 	{
 		if (drivePedalState == LOW)

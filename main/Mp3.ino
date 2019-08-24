@@ -15,7 +15,7 @@ void mp3Ini() {
 #if defined(DEBUG)
 	Serial.println("VS1053 found");
 #endif
-	if (!SD.begin(CARDCS)) {
+	if (!SD.begin(mp3CardsPin)) {
 #if defined(DEBUG)
 		Serial.println("SD failed, or not present");
 #endif
@@ -28,7 +28,7 @@ void mp3Ini() {
 #if defined(DEBUG)
 		printDirectory(SD.open("/"), 0);
 #endif
-		// Set volume for left, right channels. lower numbers == louder volume!
+		// Set volume for left, right channels.  0 == Max volume ,  100 == Min volume
 		musicPlayer.setVolume(volume,volume);
 		musicPlayer.useInterrupt(VS1053_FILEPLAYER_TIMER0_INT);  
 	}
@@ -61,8 +61,11 @@ void playSound(char* path)
 #endif
 	}
 	return;
-}
- //  ------ end of MP-3 routine 
+}    //  ------ end of MP-3 routine 
+
+
+
+
 
 void nextSong(int i) {				// blcsk weel sw - Song
 	char str[12];

@@ -121,7 +121,7 @@
     <None Include="Drive.ino">
       <FileType>CppCode</FileType>
     </None>
-    <None Include="MP_3.ino">
+    <None Include="Mp3.ino">
       <FileType>CppCode</FileType>
     </None>
     <None Include="Neopixles.ino">
@@ -130,7 +130,7 @@
     <None Include="Pumps.ino">
       <FileType>CppCode</FileType>
     </None>
-    <None Include="Read_Bottoms.ino">
+    <None Include="ReadBotms.ino">
       <FileType>CppCode</FileType>
     </None>
     <None Include="Encoder.ino">

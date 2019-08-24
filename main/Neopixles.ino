@@ -3,7 +3,7 @@
   --------------  NeoPixels on the tractor -----------
 	   ===================8-2019 ------------
 
-	   ------  numbers of leds in each strip ,---      pin # of strip in config !!! ---------
+	   ------  numbers of leds in each strip and pin # of strip in config !!! ---------
 */
 
 int i = 0;

@@ -12,7 +12,7 @@
 #include <Adafruit_NeoPixel.h>
 
 //   -----   MP 3 -----------
-Adafruit_VS1053_FilePlayer musicPlayer = Adafruit_VS1053_FilePlayer(mp3Reset, SHIELD_CS, SHIELD_DCS, DREQ, CARDCS);
+Adafruit_VS1053_FilePlayer musicPlayer = Adafruit_VS1053_FilePlayer(mp3ResetPin, mp3CsPin, mp3DcsPin, mp3DreqPin, mp3CardsPin);
 
 // ------  NeoPixles -  constructing 6 classs for each neopixle, ---      pin # of strip in config !!! ----
 #define neoMotorNo		42     //number of leds for engine NeoPixel ;
@@ -70,13 +70,10 @@ volatile int hornBtmNumber = 0;
 volatile int hornBtm = 0;
 volatile int hornBtmOld = 0;
 
-volatile bool isMP3On = false;
+volatile bool isMP3On = 0;
 volatile int  driveSpeed = 100;			// to be set by the speed encoder potentiometer 0 - 255 full speed
 
-volatile int volumeL = 100 ;			
-volatile int volumeR = 100 ;
-
-volatile int volume =  90 ;			// 0- max volume   140 - min volume 
+volatile int volume = 80 ;			// 0- max volume   80 - min volume 
 
 int songCount = 0;
 
@@ -99,9 +96,10 @@ void setup()
 	vinkers(0, 0, 0);                        // no vinkers
 	driveIni();
 	neopixleIni();
-	encoderSwIni();
+	encoderIni();
+	playSound("TRACK02.MP3");
 
-	playSound("comnd/1.MP3");
+//	playSound("comnd/9.MP3");
 
 }
 //---  end of  SETUP routine  ---
@@ -110,7 +108,7 @@ void setup()
 void loop() {
 
 	readBottoms();
-	checkEncoderSw();
+	checkEncoder();
 	action();
 
 }
