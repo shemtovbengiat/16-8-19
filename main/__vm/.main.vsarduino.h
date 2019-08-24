@@ -77,12 +77,12 @@ typedef void *__builtin_va_list;
 #include "main.ino"
 #include "Actions.ino"
 #include "Drive.ino"
+#include "Encoder.ino"
 #include "MP_3.ino"
 #include "Neopixles.ino"
 #include "Pumps.ino"
 #include "Read_Bottoms.ino"
 #include "Turn.ino"
 #include "Valves.ino"
-#include "rotarySw.ino"
 #endif
 #endif

@@ -142,11 +142,11 @@ void neoInteriorShow(int c)	// interior light - 0 = RED = motor OFF   1 = GREEN 
 	{
 		if (c == 0) //RED = motor OFF
 		{
-			neoInterior.setPixelColor(i, 100, 0, 0);
+			neoInterior.setPixelColor(i, 10, 0, 0);
 		}
 		else if (c == 1) 	//GREEN = motor ON
 		{
-			neoInterior.setPixelColor(i, 0, 100, 0);
+			neoInterior.setPixelColor(i, 0, 10, 0);
 		}
 		neoInterior.show();
 		i++;

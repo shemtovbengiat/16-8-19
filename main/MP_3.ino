@@ -1,5 +1,4 @@
-
-// ---- mp3   Initialization  --------
+// ---- MP-3   Initialization  routine --------
 
 void mp3Ini() {
 
@@ -27,13 +26,11 @@ void mp3Ini() {
 	// list files
 	if (isMP3On) {
 #if defined(DEBUG)
-		//printDirectory(SD.open("/"), 0);
+		printDirectory(SD.open("/"), 0);
 #endif
 		// Set volume for left, right channels. lower numbers == louder volume!
-		musicPlayer.setVolume(30, 40);
-		// Timer interrupts are not suggested, better to use DREQ interrupt!
-		 //musicPlayer.useInterrupt(VS1053_FILEPLAYER_TIMER0_INT); // timer int
-		musicPlayer.useInterrupt(VS1053_FILEPLAYER_TIMER0_INT);  ///   check with mickel  no to use TIMER0_INT  !!!!!!!!!!!!!!!!!!!!!!
+		musicPlayer.setVolume(volume,volume);
+		musicPlayer.useInterrupt(VS1053_FILEPLAYER_TIMER0_INT);  
 	}
 }
 //-------  END of MP -3  inisilaztion routine ------------
