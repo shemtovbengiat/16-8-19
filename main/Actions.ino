@@ -10,18 +10,15 @@ void action()
 
 	if (motorOn == 0)         // start bottom not pushed  yet.. - DO Nothing
 	{
-		
-	if (musicPlayer.playingMusic) {
-		musicPlayer.stopPlaying();
-		}
+	//if (musicPlayer.playingMusic) musicPlayer.stopPlaying();
+
 		motorValves(0, 0);                        // 2 leds in motor (x,y)( x- 1=blink leds 0=off,  y- 1= fast blink 0=slow blink 
 		//neoMotorStop();
 		pumps(0, 0);                              // water and air pumps fan motor (0=off 1=on slow, 1=fast 0=slow)
-		//musicPlayer.sineTest(0x44, 500);       // Make a tone to indicate VS1053 is working
+		//musicPlayer.sineTest(0x44, 100);       // Make a tone to indicate VS1053 is working
 		neoInteriorShow(0);
 		//neoMotorShow();
 		//nextCommand(6);          // low rpm sound 1000rpm
-
 	}
 
 	if (motorOn == 1 && driveEnable == 0)          //   START bottom pushed motorOn ==1

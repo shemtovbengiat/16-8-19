@@ -60,8 +60,8 @@ void checkEncoder()
 		}   enc_clk_old = enc_clk; // INCREMENT SERVO   if (millis() > time_for_servo) {
 			if (angle < setpoint[pointer]) angle++;    
 			if (angle > setpoint[pointer]) angle--;
-			Serial.println(angle);
-			volume = angle;
+			//Serial.println(angle);
+			//volume = angle;
 
  // READ SWITCH AND CHANGE center volume 	
 	enc_switch = digitalRead(encoderSwitchPin);

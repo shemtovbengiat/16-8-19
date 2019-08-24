@@ -8,7 +8,7 @@
 // --- Initilatziotion Routine from SETUP 
 void pumpsIni()
 {
-	Serial.println("Pumps and fan initiated");
+	Serial.println("Pumps initiated");
 	PUMPS.begin();               // create with the default frequency 1.6KHz
 	waterPump-> run(RELEASE);    //reales == STOP   at STARTtttttt
 	airPump->   run(RELEASE);    //reales == STOP   at STARTtttttt

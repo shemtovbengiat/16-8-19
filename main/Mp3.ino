@@ -3,7 +3,7 @@
 void mp3Ini() {
 
 #if defined(DEBUG)
-	Serial.println("MP3 inishlizing");
+	Serial.println("MP3 inishlized");
 #endif
 	if (!musicPlayer.begin()) { // initialise the music player
 #if defined(DEBUG)
@@ -13,9 +13,9 @@ void mp3Ini() {
 		return;
 	}
 #if defined(DEBUG)
-	Serial.println("VS1053 found");
+	Serial.println("MP 3  working");
 #endif
-	if (!SD.begin(mp3CardsPin)) {
+	if (!SD.begin(mp3SDCardsPin)) {
 #if defined(DEBUG)
 		Serial.println("SD failed, or not present");
 #endif
@@ -23,14 +23,15 @@ void mp3Ini() {
 		return;
 	}
 	isMP3On = true;  //  initialise the music player and SD in SETUP routine
-	// list files
+	
 	if (isMP3On) {
-#if defined(DEBUG)
-		printDirectory(SD.open("/"), 0);
-#endif
-		// Set volume for left, right channels.  0 == Max volume ,  100 == Min volume
-		musicPlayer.setVolume(volume,volume);
-		musicPlayer.useInterrupt(VS1053_FILEPLAYER_TIMER0_INT);  
+	//printDirectory(SD.open("/"), 0);		// list files at setup time 
+	
+	
+	// Set Volume for left, right channels.  0 == Max volume ,  80 == Min volume
+	musicPlayer.setVolume(10,volume);
+	
+	musicPlayer.useInterrupt(VS1053_FILEPLAYER_TIMER0_INT);  
 	}
 }
 //-------  END of MP -3  inisilaztion routine ------------
@@ -40,13 +41,12 @@ void mp3Ini() {
 */
 void playSound(char* path)
 {
-#if defined(DEBUG)
-	Serial.print("playing file: -- ");
+
+	Serial.print("playing file - ");
 	Serial.println(path);
-#endif
-	if (musicPlayer.playingMusic) {
-		musicPlayer.stopPlaying();
-	}
+
+	if (musicPlayer.playingMusic)  musicPlayer.stopPlaying();
+	
 	if (musicPlayer.stopped()) {
 		// Start playing a file, then we can do stuff while waiting for it to finish
 		if (!musicPlayer.startPlayingFile(path)) {
@@ -55,11 +55,8 @@ void playSound(char* path)
 		}
 		Serial.println("Started playing");
 	}
-	else {
-#if defined(DEBUG)
-		Serial.println("=== Error: cant stop last file! ===");
-#endif
-	}
+	else Serial.println("=== Error: cant stop last file! ===");
+	
 	return;
 }    //  ------ end of MP-3 routine 
 
@@ -72,7 +69,6 @@ void nextSong(int i) {				// blcsk weel sw - Song
 	sprintf(str, "songs/%d.mp3", i);
 	playSound(str);
 }
-
 void nextVocal(int i) {
 	char str[12];
 	sprintf(str, "vocal/%d.mp3", i);
