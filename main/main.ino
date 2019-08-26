@@ -79,6 +79,13 @@ volatile int volume = 40 ;			// 0- max volume   80 - min volume
 
 int songCount = 0;
 
+									// 8-19 added 5 motor functions switchs 
+volatile bool airPumpOn = 0;
+volatile bool waterPumpOn = 0;
+volatile bool valvesMotorOn = 0;
+volatile bool fanMotorOn = 0;
+volatile bool neoPixleMotorOn = 0;
+
 //  -------   S E T U  P      ROUTINE  -------------
 
 void setup()

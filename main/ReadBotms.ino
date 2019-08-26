@@ -5,26 +5,40 @@
   -----  reads all the bottoms and set global variables for the Actions routine
 */
 
-bool btmStartState = 0;       // Strat / Stop
+bool btmStartState = 0;        // Strater On / Off
+bool btmHornState = 0;         // horn
+bool wheelBtm1State = 0;       // wheel bottom # 1 clockwise from 12 oclock
+bool wheelBtm2State = 0;       // whee2 bottom # 2 clockwise from 12 oclock
+bool wheelBtm3State = 0;       // whee3 bottom # 3 clockwise from 12 oclock
+bool btm_lState = 0;           // Left turn signal
+bool btm_rState = 0;           // Right turn signal
+bool btm_Fw_state = 0;         // Forward drive
+bool btm_Rev_state = 0;        // Reverse drive
+bool drivePedalState = 0;      // Foot Pedal for drive FRW. & REV.
+
+bool airPumpState = 0;
+bool waterPumpState = 0;
+bool valvesState = 0;
+bool fanMotorState = 0;
+bool neoPixleMotorState = 0;
+
 bool lastbtmStartState = 0;
-int btmHornState = 0;         // horn
-int lastbtmHornState = 0;
-int wheelBtm1State = 0;       // wheel bottom # 1 clockwise from 12 oclock
-int lastWheelBtm1State = 0;
-int wheelBtm2State = 0;       // wheel bottom # 1 clockwise from 12 oclock
-int lastWheelBtm2State = 0;
-int wheelBtm3State = 0;       // wheel bottom # 1 clockwise from 12 oclock
-int lastWheelBtm3State = 0;
-int btm_lState = 0;           // Left turn signal
-int lastbtm_lState = 0;
-int btm_rState = 0;           // Right turn signal
-int lastbtm_rState = 0;
-int btm_Fw_state = 0;         // Up = Forward drive
-int lastbtm_Fw_state = 0;
-int btm_Rev_state = 0;        // Down = Reverse drive
-int lastbtm_Rev_state = 0;
-int drivePedalState = 0;      // Foot Pedal for drive FRW. & REV.
-int lastDrivePedalState = 0;
+bool lastbtmHornState = 0;
+bool lastWheelBtm1State = 0;
+bool lastWheelBtm2State = 0;
+bool lastWheelBtm3State = 0;
+bool lastbtm_lState = 0;
+bool lastbtm_rState = 0;
+bool lastbtm_Fw_state = 0;
+bool lastbtm_Rev_state = 0;
+bool lastDrivePedalState = 0;
+
+bool lastAirPumpState = 0;			// 8-2019 added push bottoms paralel function with motor commands
+bool lastWaterPumpState = 0;
+bool lastValvesState = 0;
+bool lastFanMotorState = 0;
+bool lastNeoPixleMotorState = 0;
+
 
 // ---   initionlized in SETUP routine ----
 void readBottomsIni()
@@ -41,7 +55,7 @@ void readBottomsIni()
 	pinMode(drivePedalPin,	 INPUT_PULLUP);
 
 	pinMode(btm_AirPin ,	 INPUT_PULLUP);    // front motor panel  all bottoms with pullup resistor      
-	pinMode(btm_WtrPin ,	 INPUT_PULLUP);
+	pinMode(btm_WaterPin ,	 INPUT_PULLUP);
 	pinMode(btm_VlvPin ,     INPUT_PULLUP);
 	pinMode(btm_FanPin ,     INPUT_PULLUP);
 	pinMode(btm_neoMotrPin , INPUT_PULLUP);
@@ -191,9 +205,78 @@ void readBottoms()
 	}
 	lastDrivePedalState = drivePedalState;
 
+	// ------------------------------------------- btm  Air Pump  -- airPumpOn  ----------------------------
+
+	 airPumpState= digitalRead(btm_AirPin);
+	if (airPumpState != lastAirPumpState)
+	{
+		if (airPumpState == LOW)
+		{
+			Serial.println("[ Air Pump ]");
+			delay(15);
+			airPumpOn = !airPumpOn;          // toggel switch !!!
+		}
+	}
+	lastAirPumpState = airPumpState;
 
 
+	// ------------------------------------------- btm  Water Pump  -- waterPumpOn  ----------------------------
 
+	waterPumpState = digitalRead(btm_WaterPin);
+	if (waterPumpState != lastWaterPumpState)
+	{
+		if (waterPumpState == LOW)
+		{
+			Serial.println("[ Water Pump ]");
+			delay(15);
+			waterPumpOn = !waterPumpOn;          // toggel switch !!!
+		}
+	}
+	lastWaterPumpState = waterPumpState;
+
+	// ------------------------------------------- btm  Valve on motor   -- valvesMotorOn  ----------------------------
+
+	valvesState = digitalRead(btm_VlvPin);
+	if (valvesState != lastValvesState)
+	{
+		if (valvesState == LOW)
+		{
+			Serial.println("[ Valves on Motor ]");
+			delay(15);
+			valvesMotorOn = !valvesMotorOn;          // toggel switch !!!
+		}
+	}
+	lastValvesState = valvesState;
+
+	// ------------------------------------------- btm  Fan Radiator on motor   -- fanMotorOn  ----------------------------
+
+	fanMotorState = digitalRead(btm_FanPin);
+	if (fanMotorState != lastValvesState)
+	{
+		if (fanMotorState == LOW)
+		{
+			Serial.println("[  Fan Radiator  ]");
+			delay(15);
+			fanMotorOn = !fanMotorOn;          // toggel switch !!!
+		}
+	}
+	lastValvesState = fanMotorState;
+	
+
+
+		// ------------------------------------------- btm  NeoPixles on motor   -- neoPixleMotorOn  ----------------------------
+
+		neoPixleMotorState = digitalRead(btm_FanPin);
+	if (neoPixleMotorState != lastNeoPixleMotorState)
+	{
+		if (neoPixleMotorState == LOW)
+		{
+			Serial.println("[  Motor neoPixles  ]");
+			delay(15);
+			neoPixleMotorOn = !neoPixleMotorOn;          // toggel switch !!!
+		}
+	}
+	lastNeoPixleMotorState = neoPixleMotorState;
 
 }// ----END read bottoms routine   ---------------------  
 

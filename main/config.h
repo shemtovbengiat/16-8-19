@@ -15,7 +15,7 @@
 
 // ---  I N P U T S  Panel on motor side plate -------
 #define btm_AirPin          1     //sw Airpump
-#define btm_WtrPin          6     //sw water pamp
+#define btm_WaterPin        6     //sw water pamp
 #define btm_VlvPin          3     //sw vlaves-lights red
 #define btm_FanPin          4     // rdiator fan motor 
 #define btm_neoMotrPin      5     // neopixls motor 
