@@ -29,7 +29,7 @@ void mp3Ini() {
 	
 	
 	// Set Volume for left, right channels.  0 == Max volume ,  80 == Min volume
-	musicPlayer.setVolume(10,volume);
+	musicPlayer.setVolume(80,80);
 	
 	musicPlayer.useInterrupt(VS1053_FILEPLAYER_TIMER0_INT);  
 	}

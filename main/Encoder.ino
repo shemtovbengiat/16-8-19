@@ -8,8 +8,8 @@
 #define minVolume            99    // No sound at all
 #define shortPressTimeMs     20    // [ms] short press
 #define longPressTimeMs      2000  // [ms] long  press
-#define rtyFastSpeedMs       10    // [ms] rotary speed fast
-#define rtySlowSpeedMs       200   // [ms] rotary speed slow
+#define encoderFastSpeedMs       10    // [ms] rotary speed fast
+#define encoderrSlowSpeedMs       200   // [ms] rotary speed slow
 #define swIncrmntSlow        1
 #define swIncrementFast      10
 
@@ -38,41 +38,57 @@ enc_switch_old = digitalRead(encoderSwitchPin);
 
 // -----  Check Volume - encoder switch routine 
 void checkEncoder() 
-{// READ ROTARY ENCODER TO MODIFY SERVO SETPOINT
+{	// ----- READ ROTARY ENCODER TO MODIFY SERVO SETPOINT
 	enc_clk = digitalRead(encoderClockPin);
-	if ((enc_clk == 1) && (enc_clk_old == 0)) { // 0->1 transition
-		if ((millis() - enc_rotated_time) > rtySlowSpeedMs) {
+	if ((enc_clk == 1) && (enc_clk_old == 0))  // 0->1 transition
+	{	
+		if ((millis() - enc_rotated_time) > encoderrSlowSpeedMs)
+		{
 			increment = swIncrmntSlow;
 		}
-		else if ((millis() - enc_rotated_time) > rtyFastSpeedMs) {
+		else if ((millis() - enc_rotated_time) > encoderFastSpeedMs) 
+		{
 			increment = swIncrementFast;
 		}
-			else {
-				Serial.println("ROT BOUNCED");
-				increment = 0;
-			}
-	enc_rotated_time = millis();
+			else 
+				{
+					Serial.println("ROT BOUNCED");
+					increment = 0;
+				}
+		enc_rotated_time = millis();
 
-			if (digitalRead(encoderDataPin) == 1) setpoint[pointer] = setpoint[pointer] + increment;
+		if (digitalRead(encoderDataPin) == 1) setpoint[pointer] = setpoint[pointer] + increment;
 			else setpoint[pointer] = setpoint[pointer] - increment;
-			if (setpoint[pointer] < minVolume) setpoint[pointer] = minVolume;
-			if (setpoint[pointer] > maxVolume) setpoint[pointer] = maxVolume;     Serial.println(setpoint[pointer]);
-		}   enc_clk_old = enc_clk; // INCREMENT SERVO   if (millis() > time_for_servo) {
-			if (angle < setpoint[pointer]) angle++;    
-			if (angle > setpoint[pointer]) angle--;
-			//Serial.println(angle);
-			//volume = angle;
+	
+		if (setpoint[pointer] < minVolume) setpoint[pointer] = minVolume;
+	
+		if (setpoint[pointer] > maxVolume) setpoint[pointer] = maxVolume;  
+	
+		Serial.println(setpoint[pointer]);
+	}  
+	
+	enc_clk_old = enc_clk; // INCREMENT SERVO   if (millis() > time_for_servo) {
 
- // READ SWITCH AND CHANGE center volume 	
+	if (angle < setpoint[pointer]) angle++;    
+	if (angle > setpoint[pointer]) angle--;
+	//Serial.println(angle);
+	//volume = angle;
+
+ //----- read ENCODER sw,  when pussed short -> center volume=40,  when pushed long -> minimum volume =80
+
 	enc_switch = digitalRead(encoderSwitchPin);
 		if (((enc_switch_old == 1) && enc_switch == 0)) enc_pressed_time = millis(); // 1->0 transition
-		if ((enc_switch_old == 0) && (enc_switch == 1)) { // 0->1 transition
-			if ((millis() - enc_pressed_time) > longPressTimeMs) { // long press
+		
+		if ((enc_switch_old == 0) && (enc_switch == 1))  // 0->1 transition
+		{	
+			if ((millis() - enc_pressed_time) > longPressTimeMs)  // long press
+			{	
 				pointer = 2; // servo to setpoint[2] = mid angle
 				Serial.print("Long press: SETPOINT = ");
 				Serial.println(setpoint[pointer]);
 			}
-			else if ((millis() - enc_pressed_time) > shortPressTimeMs) { // short press
+			else if ((millis() - enc_pressed_time) > shortPressTimeMs)  // short press
+			{	
 				pointer = (pointer + 1) % 2;
 				Serial.print("Short press: SETPOINT = ");
 				Serial.println(setpoint[pointer]);
@@ -80,7 +96,6 @@ void checkEncoder()
 			else Serial.println("SW BOUNCED");
 		}
 		enc_switch_old = enc_switch;
-
 }// end of encoder routine 
 
 
