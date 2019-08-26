@@ -29,19 +29,25 @@ int lastDrivePedalState = 0;
 // ---   initionlized in SETUP routine ----
 void readBottomsIni()
 {
-	pinMode(btmStartPin,   INPUT_PULLUP);    // define all bottoms with pullup resistor      
-	pinMode(btmHornPin,    INPUT_PULLUP);
-	pinMode(wheelBtm1Pin,  INPUT_PULLUP);
-	pinMode(wheelBtm2Pin,  INPUT_PULLUP);
-	pinMode(wheelBtm3Pin,  INPUT_PULLUP);
-	pinMode(btm_L_pin,      INPUT_PULLUP);
-	pinMode(btm_R_pin,      INPUT_PULLUP);
-	pinMode(btm_FwPin,     INPUT_PULLUP);
-	pinMode(btm_RevPin,    INPUT_PULLUP);
-	pinMode(drivePedalPin, INPUT_PULLUP);
+	pinMode(btmStartPin,	 INPUT_PULLUP);    // define all bottoms with pullup resistor      
+	pinMode(btmHornPin,		 INPUT_PULLUP);
+	pinMode(wheelBtm1Pin,	 INPUT_PULLUP);
+	pinMode(wheelBtm2Pin,	 INPUT_PULLUP);
+	pinMode(wheelBtm3Pin,	 INPUT_PULLUP);
+	pinMode(btm_L_pin,		 INPUT_PULLUP);
+	pinMode(btm_R_pin,		 INPUT_PULLUP);
+	pinMode(btm_FwPin,		 INPUT_PULLUP);
+	pinMode(btm_RevPin,		 INPUT_PULLUP);
+	pinMode(drivePedalPin,	 INPUT_PULLUP);
+
+	pinMode(btm_AirPin ,	 INPUT_PULLUP);    // front motor panel  all bottoms with pullup resistor      
+	pinMode(btm_WtrPin ,	 INPUT_PULLUP);
+	pinMode(btm_VlvPin ,     INPUT_PULLUP);
+	pinMode(btm_FanPin ,     INPUT_PULLUP);
+	pinMode(btm_neoMotrPin , INPUT_PULLUP);
 }  // --- END of readBottoms INI rotine
 
-// ---- Initionlized in Main routine ( in the loop )
+// ---- called from within Main routine ( in the loop )
 void readBottoms()
 {
 	// --------------------------------------------- btm  START ENGINE -MOTOR ON-------------------------
@@ -185,11 +191,9 @@ void readBottoms()
 	}
 	lastDrivePedalState = drivePedalState;
 
-	if (drivePedalOn = 1 && motorOn == 1 && (forwardOn == 1 || reverseOn == 1))
-	{
-		driveEnable = 1;    // S A F A T Y  fleg !!!
-	}
-	else driveEnable = 0;
+
+
+
 
 }// ----END read bottoms routine   ---------------------  
 

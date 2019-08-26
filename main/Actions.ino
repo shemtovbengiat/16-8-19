@@ -8,6 +8,15 @@ void action()
 {
 	// --------  Drive Motors  section  -------------------------
 
+	// ----  drive enable section  ------- 
+
+	if (drivePedalOn = 1 && motorOn == 1 && (forwardOn == 1 || reverseOn == 1))
+	{
+		driveEnable = 1;    // S A F A T Y  fleg !!!
+	}
+	else driveEnable = 0;
+
+	//   --- motor section -----
 	if (motorOn == 0)         // start bottom not pushed  yet.. - DO Nothing
 	{
 	//if (musicPlayer.playingMusic) musicPlayer.stopPlaying();
