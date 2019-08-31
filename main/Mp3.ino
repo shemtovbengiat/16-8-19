@@ -25,11 +25,11 @@ void mp3Ini() {
 	isMP3On = true;  //  initialise the music player and SD in SETUP routine
 	
 	if (isMP3On) {
-	//printDirectory(SD.open("/"), 0);		// list files at setup time 
+	printDirectory(SD.open("/"), 0);		// list files at setup time 
 	
 	
 	// Set Volume for left, right channels.  0 == Max volume ,  80 == Min volume
-	musicPlayer.setVolume(80,80);
+	musicPlayer.setVolume(volume,volume);
 	
 	musicPlayer.useInterrupt(VS1053_FILEPLAYER_TIMER0_INT);  
 	}

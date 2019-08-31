@@ -73,10 +73,6 @@ volatile int hornBtm = 0;
 volatile int hornBtmOld = 0;
 
 volatile bool isMP3On = 0;
-volatile int  driveSpeed = 100;			// to be set by the speed encoder potentiometer 0 - 255 full speed
-
-volatile int volume = 40 ;			// 0- max volume   80 - min volume 
-
 int songCount = 0;
 
 									// 8-19 added 5 motor functions switchs 
@@ -85,20 +81,31 @@ volatile bool waterPumpOn = 0;
 volatile bool valvesMotorOn = 0;
 volatile bool fanMotorOn = 0;
 volatile bool neoPixleMotorOn = 0;
+volatile bool lightsOn = 0;
+
+								//  ------ timers 
+volatile int  driveSpeed = 100;			// to be set by the speed encoder potentiometer 0 - 255 full speed
+
+volatile int volume = 20 ;		    	// 0- max volume   80 - min volume 
+
+volatile int lampTimerFast = 60;	//   60 ms  fast
+volatile int lampTimerSlow = 200;	//  200 ms  slow
+volatile int lampTimerMid =  120;	//  120 ms  middle speed  
+
 
 //  -------   S E T U  P      ROUTINE  -------------
 
 void setup()
 {
 	Serial.begin(115200);
-	randomSeed(analogRead(0));    // for not requering random numbers
+	randomSeed(analogRead(A0));    // for not requering random numbers
 
 #if defined(DEBUG)
 	Serial.println("DEBUG mode!");
 #endif
 
 	mp3Ini();       //  --------O N L Y  initilazition routins in SETUP 
-	motorValvesIni();
+	valvesIni();
 	readBottomsIni();
 	pumpsIni();
 	turnIni();
@@ -106,6 +113,7 @@ void setup()
 	driveIni();
 	neopixleIni();
 	encoderIni();
+	lampsSwitchsIni();
 
 	playSound("TRACK02.MP3");
 //	playSound("comnd/9.MP3");

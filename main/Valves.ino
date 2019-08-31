@@ -1,7 +1,5 @@
-
-
 /*    ----------- Valves Routine -----------
- Turns on and off 2 (LED) connected to "" valves " on the motor,
+ Turns on and off 2 (LED) connected to " valves " on the motor,
  without using the delay() function.  This means that other code
  can run at the same time without being interrupted by the LED code.
  http://www.arduino.cc/en/Tutorial/BlinkWithoutDelay
@@ -18,18 +16,17 @@ long valve1Timing = 0;                // interval at which to blink (10 fast 200
 long valve2Timing = 0;
 
 // ----valves   Initialization  in SETUP routine--------
-void motorValvesIni()
+void valvesIni()
 {
 	pinMode(valve1Pin, OUTPUT);              // set the motor  Valves digital pin as output:
 	pinMode(valve2Pin, OUTPUT);
-	return;
 }
 //  ----- end of Ini routine 
 
 
 // ------------------- Motor Valves routine  -----------------------
 
-void motorValves(bool valvesOn, bool valvesFast)
+void valves(bool valvesOn, bool valvesFast)
 {
 	bool _valvesOn = valvesOn;                     // for internal use                   
 	bool _valvesFast = valvesFast;
@@ -44,7 +41,7 @@ void motorValves(bool valvesOn, bool valvesFast)
 	else if (_valvesFast == 0)  // motor on slow valves 
 	{
 		valve1Timing = 200;                 //  slow 200 milliseconds)
-		valve2Timing = 200;
+		valve2Timing = 210;
 		lightValves();                     // service routine next peragaph 
 	}
 	else if (_valvesOn == 1 && _valvesFast == 1)
@@ -87,9 +84,7 @@ void lightValves()   // ---- light valve sub routine according to fast=1 or slow
 		}
 		digitalWrite(valve2Pin, valve2State);   // set the LED with the ledState of the variable
 	}
-	return;
-}
-  //  ----  end of light valves routine 
+} //  ----  end of light valves routine 
 
 
 

@@ -15,6 +15,7 @@
 #define _VSARDUINO_H_
 #define __AVR_atmega2560__
 #define __AVR_ATmega2560__
+#define _VMDEBUG_TOOL_gdbstub
 #define F_CPU 16000000L
 #define ARDUINO 10809
 #define ARDUINO_AVR_MEGA2560
@@ -81,6 +82,7 @@ typedef void *__builtin_va_list;
 #include "Actions.ino"
 #include "Drive.ino"
 #include "Encoder.ino"
+#include "Lamps.ino"
 #include "Mp3.ino"
 #include "Neopixles.ino"
 #include "Pumps.ino"

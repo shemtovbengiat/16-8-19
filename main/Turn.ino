@@ -2,10 +2,10 @@
      Turns on and off 2 arrowa left and right (Vinkers) without using the delay() function.
  */
 
-int turnLState = 0;                  // ledState used to set the LED
+int turnLState = 0;                  // turn lights State 
 int turnRState = 0;
 
-unsigned long previousLms = 0;      // will store last time LED was updated
+unsigned long previousLms = 0;      // will store last time Lights where updated
 unsigned long previousRms = 0;
 
 long turnLRTiming = 0;                // interval at which to blink 
@@ -30,13 +30,12 @@ void vinkers(bool turnLOn, bool turnROn, bool turnFast)      // turnfast -( 0=sl
 
 	if (L == 0 && R == 0)
 	{
-
 		digitalWrite(turnL_Pin, 1);
 		digitalWrite(turnR_Pin, 1);           // 1 = RELAY OFF ,pin at 0 activate relay by going ground !!!!!!!!!!!!
 	}
 	else if (F == 0)                      // regular vinker - slow  
 	{
-		turnLRTiming = 1400;              //  slow 200 milliseconds)
+		turnLRTiming = 200;              //  1400 slow 200 milliseconds)
 		turnLights(L, R);                 // service routine next peragaph 
 	}
 	else if (F == 1)                      // both vinkers  - emergency lights - fast 
@@ -46,7 +45,6 @@ void vinkers(bool turnLOn, bool turnROn, bool turnFast)      // turnfast -( 0=sl
 	}
 	return;                               // do nothing with the leds go back empty
 }
-
 
 // ---- servis routine to the above vinkers routine 0 
 

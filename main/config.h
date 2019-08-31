@@ -20,6 +20,10 @@
 #define btm_FanPin          4     // rdiator fan motor 
 #define btm_neoMotrPin      5     // neopixls motor 
 
+// ---  I N P U T S  Main driver Panel  -------
+
+#define btmLightsPin		A7	   // front high lights 
+
 // ---  I N P U T S  Driver panel---------------
 #define btmStartPin        A8      // Bottom  start or second press - stop motor and all functions on the motor
 #define btmHornPin         A7      // Bottom  horn each press another playing of mp3 file from horn librery 
@@ -38,7 +42,7 @@
 #define encoderSwitchPin   A9
 
 // ---  O U T P U T S   ----------
-#define valve1Pin          26    // LED 1+2 pin  // blinking motor valve pin number 
+#define valve1Pin         A10    // LED 1+2 pin  // blinking motor valve pin number 
 #define valve2Pin          27             
 
 #define turnL_Pin          A1    // turn signal left slow standing / fast at drive / warning light both
@@ -54,9 +58,12 @@
 #define rdrmPwm1Pin        36
 #define rdrmPwm2Pin        37
 
-#define reversePin         A3
-#define redBrakesPin       A10
+#define reversePin         A5
+#define redBrakesPin      A10
 
+#define startlampPin       A3
+#define wtrPumpLampPin      6
+#define airPumpLampPin      7
 
 #define neoMotorPin        10     //data pin for engine NeoPixel   - PWM
 #define neoTurnLPin        45    //data pin for left vinkers front and back NeoPixel- PWM
@@ -65,7 +72,9 @@
 #define neoExhaostPin      11     //data pin for exhaost NeoPixel ring - PWM
 #define neoHeadPin	       12     //?  data pin for head NeoPixel  - PWM
 
-
+#define swLampPin		  A1	  //  lamps within switches.
+#define startSwLampPin	  A10
+#define lightSwLampPin	  A12
 
 // --- declare  All functions and .INO routines  ----
 
@@ -93,11 +102,14 @@ void nextStarter(int i);
 void nextHorn(int i);
 void nextCommand(int i);
 
-void encoderIni();				// -- Encoder for olume 
+void encoderIni();				// -- Encoder for volume 
 void checkEncoder();
 
-void motorValvesIni();			// all the rest 
-void motorValves(bool valvesOn, bool valvesFast);
+void valvesIni();
+void lampsSwitchsIni();
+
+// all the rest 
+void valves(bool valvesOn, bool valvesFast);
 void readBottomsIni();
 void readBottoms();
 void pumpsIni();
@@ -105,5 +117,11 @@ void pumps(bool pumpsOn, int pumpsFast);
 void lightValves();
 void action();
 void turnIni();
-void vinkers(bool turnLOn, bool turnROn, bool turnFast);
+void turnLights(bool L, bool R);
+void vinkers(bool turnLOn, bool turnROn, bool turnFast);     
 void driveIni();
+
+void lampsSwitchsIni();
+void starterLamp(int rate);
+void switchLamp(int rate);
+void lightsLamp(int rate);

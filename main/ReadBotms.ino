@@ -1,10 +1,7 @@
-
-
 /*
-
-  -----  reads all the bottoms and set global variables for the Actions routine
+  -----  READ BOTTOMS and setS global variables for the ACTIONS routine
 */
-
+//     ------   States ------
 bool btmStartState = 0;        // Strater On / Off
 bool btmHornState = 0;         // horn
 bool wheelBtm1State = 0;       // wheel bottom # 1 clockwise from 12 oclock
@@ -16,12 +13,14 @@ bool btm_Fw_state = 0;         // Forward drive
 bool btm_Rev_state = 0;        // Reverse drive
 bool drivePedalState = 0;      // Foot Pedal for drive FRW. & REV.
 
-bool airPumpState = 0;
-bool waterPumpState = 0;
-bool valvesState = 0;
-bool fanMotorState = 0;
-bool neoPixleMotorState = 0;
+bool btmAirPumpState = 0;			// ---------- 8-2019 ---------
+bool btmWaterPumpState = 0;
+bool btmValvesState = 0;
+bool btmFanMotorState = 0;
+bool btmNeoPixleMotorState = 0;
+bool btmLightsState = 0;
 
+//    -------- Last xx state ------
 bool lastbtmStartState = 0;
 bool lastbtmHornState = 0;
 bool lastWheelBtm1State = 0;
@@ -32,6 +31,7 @@ bool lastbtm_rState = 0;
 bool lastbtm_Fw_state = 0;
 bool lastbtm_Rev_state = 0;
 bool lastDrivePedalState = 0;
+bool lastBtmLightsState = 0;
 
 bool lastAirPumpState = 0;			// 8-2019 added push bottoms paralel function with motor commands
 bool lastWaterPumpState = 0;
@@ -40,7 +40,7 @@ bool lastFanMotorState = 0;
 bool lastNeoPixleMotorState = 0;
 
 
-// ---   initionlized in SETUP routine ----
+// ---  INI routine called from within SETUP routine ----
 void readBottomsIni()
 {
 	pinMode(btmStartPin,	 INPUT_PULLUP);    // define all bottoms with pullup resistor      
@@ -59,225 +59,248 @@ void readBottomsIni()
 	pinMode(btm_VlvPin ,     INPUT_PULLUP);
 	pinMode(btm_FanPin ,     INPUT_PULLUP);
 	pinMode(btm_neoMotrPin , INPUT_PULLUP);
+	
+	pinMode(btmLightsPin,    INPUT_PULLUP);
+
+	pinMode(startlampPin,	 OUTPUT);
+	pinMode(wtrPumpLampPin,  OUTPUT);
+	pinMode(airPumpLampPin,  OUTPUT);
 }  // --- END of readBottoms INI rotine
 
-// ---- called from within Main routine ( in the loop )
+
+// ---- Read Bottoms called from within Main routine ( in the loop ) --------------------
 void readBottoms()
 {
-	// --------------------------------------------- btm  START ENGINE -MOTOR ON-------------------------
-	btmStartState = digitalRead(btmStartPin);
-	if (btmStartState != lastbtmStartState)
-	{
-		if (btmStartState == LOW)
+		// --------------------------------------------- btm  START ENGINE -MOTOR ON-------------------------
+		btmStartState = digitalRead(btmStartPin);
+		if (btmStartState != lastbtmStartState)
 		{
-			Serial.println(" [ START  ] ");
-			delay(20);
-			motorOn = !motorOn;
-			startBtmNumber = random(0, 18);
+			if (btmStartState == LOW)
+			{
+				Serial.println(" [ START  ] ");
+				delay(20);
+				motorOn = !motorOn;
+				startBtmNumber = random(0, 18);
+			}
 		}
+		lastbtmStartState = btmStartState;
 
-	}
-	lastbtmStartState = btmStartState;
-
-	// ----------------------------  ------------------ btm HORN -HORN PUSHED-------------------------
-	btmHornState = digitalRead(btmHornPin);
-	if (btmHornState != lastbtmHornState)
-	{
-		if (btmHornState == LOW)
+		// ----------------------------  ------------------ btm HORN -HORN PUSHED-------------------------
+		btmHornState = digitalRead(btmHornPin);
+		if (btmHornState != lastbtmHornState)
 		{
-			Serial.println(" [ HORN  ] ");
-			delay(20);
-			hornBtmNumber = random(1, 5);
+			if (btmHornState == LOW)
+			{
+				Serial.println(" [ HORN  ] ");
+				delay(20);
+				hornBtmNumber = random(1, 5);
+			}
 		}
-	}
-	lastbtmHornState = btmHornState;
+		lastbtmHornState = btmHornState;
 
-	// -------------------------------------------------- btm  RIGHT SIGNAL- -turnROn------------------------
+		// -------------------------------------------------- btm  RIGHT SIGNAL- -turnROn------------------------
 
-	btm_rState = digitalRead(btm_R_pin);
-	if (btm_rState != lastbtm_rState)
-	{
-		if (btm_rState == LOW)
+		btm_rState = digitalRead(btm_R_pin);
+		if (btm_rState != lastbtm_rState)
 		{
-			Serial.println(" [ Right Turn ] ");
-			delay(15);
-			turnROn = !turnROn;         // toggel switch !!!
-			nextCommand(4);             // play file # 4 in the /cmnd/x.mp3 subdirectory in sd card  - prerecorded
+			if (btm_rState == LOW)
+			{
+				Serial.println(" [ Right Turn ] ");
+				delay(15);
+				turnROn = !turnROn;         // toggel switch !!!
+				nextCommand(4);             // play file # 4 in the /cmnd/x.mp3 subdirectory in sd card  - prerecorded
 
+			}
 		}
-	}
-	lastbtm_rState = btm_rState;
+		lastbtm_rState = btm_rState;
 
-	// -------------------------------------------------- btm  LEFT SIGNAL-turnLOn-------------------------
+		// -------------------------------------------------- btm  LEFT SIGNAL-turnLOn-------------------------
 
-	btm_lState = digitalRead(btm_L_pin);
-	if (btm_lState != lastbtm_lState)
-	{
-		if (btm_lState == LOW)
+		btm_lState = digitalRead(btm_L_pin);
+		if (btm_lState != lastbtm_lState)
 		{
-			Serial.println(" [ Left Turn ] ");
-			delay(15);
-			turnLOn = !turnLOn;       // toggel switch !!!
+			if (btm_lState == LOW)
+			{
+				Serial.println(" [ Left Turn ] ");
+				delay(15);
+				turnLOn = !turnLOn;       // toggel switch !!!
+			}
 		}
-	}
-	lastbtm_lState = btm_lState;
+		lastbtm_lState = btm_lState;
 
-	// ------------------------------------------- btm   REVERSE -- reverseOn------------------------
-	btm_Rev_state = digitalRead(btm_RevPin);
-	if (btm_Rev_state != lastbtm_Rev_state)
-	{
-		if (btm_Rev_state == LOW)
+		// ------------------------------------------- btm   REVERSE -- reverseOn------------------------
+		btm_Rev_state = digitalRead(btm_RevPin);
+		if (btm_Rev_state != lastbtm_Rev_state)
 		{
-			Serial.println("[ REVERSE ]");
-			delay(15);
-			reverseOn = !reverseOn;         // toggel switch !!!
+			if (btm_Rev_state == LOW)
+			{
+				Serial.println("[ REVERSE ]");
+				delay(15);
+				reverseOn = !reverseOn;         // toggel switch !!!
+			}
 		}
-	}
-	lastbtm_Rev_state = btm_Rev_state;
+		lastbtm_Rev_state = btm_Rev_state;
 
-	// ------------------------------------------- btm  FORWARD -- forwardOn-----------------------
-	btm_Fw_state = digitalRead(btm_FwPin);
-	if (btm_Fw_state != lastbtm_Fw_state)
-	{
-		if (btm_Fw_state == LOW)
+		// ------------------------------------------- btm  FORWARD -- forwardOn-----------------------
+		btm_Fw_state = digitalRead(btm_FwPin);
+		if (btm_Fw_state != lastbtm_Fw_state)
 		{
-			Serial.println("[ FORWARD ]");
-			delay(15);
-			forwardOn = !forwardOn;          // toggel switch !!!
+			if (btm_Fw_state == LOW)
+			{
+				Serial.println("[ FORWARD ]");
+				delay(15);
+				forwardOn = !forwardOn;          // toggel switch !!!
+			}
 		}
-	}
-	lastbtm_Fw_state = btm_Fw_state;
+		lastbtm_Fw_state = btm_Fw_state;
 
-	// -------------------------------------------------- WHEEL BOTTOM # 1  ----wheelBottom1Pushed----------------------
+		// -------------------------------------------------- WHEEL BOTTOM # 1  ----wheelBottom1Pushed----------------------
 
-	wheelBtm1State = digitalRead(wheelBtm1Pin);
-	if (wheelBtm1State != lastWheelBtm1State)
-	{
-		if (wheelBtm1State == LOW)
+		wheelBtm1State = digitalRead(wheelBtm1Pin);
+		if (wheelBtm1State != lastWheelBtm1State)
 		{
-			Serial.println(" [ WHEEL SW  1  ] ");
-			delay(15);
-			wheelBottom1Pushed = random(1, 11);         // random switch (x, y) y # of files in sd card subdirectory
+			if (wheelBtm1State == LOW)
+			{
+				Serial.println(" [ WHEEL SW  1  ] ");
+				delay(15);
+				wheelBottom1Pushed = random(1, 11);         // random switch (x, y) y # of files in sd card subdirectory
+			}
 		}
-	}
-	lastWheelBtm1State = wheelBtm1State;
+		lastWheelBtm1State = wheelBtm1State;
 
-	// -------------------------------------------------- WHEEL BOTTOM # 2  ----- wheelBottom2Pushed ---------------------
+		// -------------------------------------------------- WHEEL BOTTOM # 2  ----- wheelBottom2Pushed ---------------------
 
-	wheelBtm2State = digitalRead(wheelBtm2Pin);
-	if (wheelBtm2State != lastWheelBtm2State)
-	{
-		if (wheelBtm2State == LOW)
+		wheelBtm2State = digitalRead(wheelBtm2Pin);
+		if (wheelBtm2State != lastWheelBtm2State)
 		{
-			Serial.println(" [ WHEEL SW  2  ] ");
-			delay(15);
-			wheelBottom2Pushed = random(2, 12);       // random switch (x, y) y # of files in sd card subdirectory
+			if (wheelBtm2State == LOW)
+			{
+				Serial.println(" [ WHEEL SW  2  ] ");
+				delay(15);
+				wheelBottom2Pushed = random(2, 12);       // random switch (x, y) y # of files in sd card subdirectory
+			}
 		}
-	}
-	lastWheelBtm2State = wheelBtm2State;
+		lastWheelBtm2State = wheelBtm2State;
 
-	// -------------------------------------------------- WHEEL BOTTOM # 3  ---- wheelBottom3Pushed ----------------------
+		// -------------------------------------------------- WHEEL BOTTOM # 3  ---- wheelBottom3Pushed ----------------------
 
-	wheelBtm3State = digitalRead(wheelBtm3Pin);
-	if (wheelBtm3State != lastWheelBtm3State)
-	{
-		if (wheelBtm3State == LOW)
+		wheelBtm3State = digitalRead(wheelBtm3Pin);
+		if (wheelBtm3State != lastWheelBtm3State)
 		{
-			Serial.println(" [ WHEEL SW  3  ] ");
-			delay(15);
-			wheelBottom3Pushed = random(3, 13);       // random switch (x, y) y # of files in sd card subdirectory
+			if (wheelBtm3State == LOW)
+			{
+				Serial.println(" [ WHEEL SW  3  ] ");
+				delay(15);
+				wheelBottom3Pushed = random(3, 13);       // random switch (x, y) y # of files in sd card subdirectory
+			}
 		}
-	}
-	lastWheelBtm3State = wheelBtm3State;
+		lastWheelBtm3State = wheelBtm3State;
 
-	// -------------------------------------------------- Drive Pedal  -- drivePedalOn -----------------------
+		// -------------------------------------------------- Drive Pedal  -- drivePedalOn -----------------------
 
-	drivePedalState = digitalRead(drivePedalPin);
-	if (drivePedalState != lastDrivePedalState)
-	{
-		if (drivePedalState == LOW)
+		drivePedalState = digitalRead(drivePedalPin);
+		if (drivePedalState != lastDrivePedalState)
 		{
-			Serial.println(" [ Drive Pedal  ] ");
-			delay(15);
-			drivePedalOn = 1;                 //  S A F T Y   switch 
+			if (drivePedalState == LOW)
+			{
+				Serial.println(" [ Drive Pedal  ] ");
+				delay(15);
+				drivePedalOn = 1;                 //  S A F T Y   switch 
+			}
+			else drivePedalOn = 0;              // only MOMENTARY witch  on when pushed OFF when not pushed
 		}
-		else drivePedalOn = 0;              // only MOMENTARY witch  on when pushed OFF when not pushed
-	}
-	lastDrivePedalState = drivePedalState;
+		lastDrivePedalState = drivePedalState;
 
-	// ------------------------------------------- btm  Air Pump  -- airPumpOn  ----------------------------
+		//***************************************************************************           8-2019    **********************************
+		// ------------------------------------------- btm  Air Pump  -- airPumpOn  ----------------------------
 
-	 airPumpState= digitalRead(btm_AirPin);
-	if (airPumpState != lastAirPumpState)
-	{
-		if (airPumpState == LOW)
+		btmAirPumpState = digitalRead(btm_AirPin);
+		if (btmAirPumpState != lastAirPumpState)
 		{
-			Serial.println("[ Air Pump ]");
-			delay(15);
-			airPumpOn = !airPumpOn;          // toggel switch !!!
+			if (btmAirPumpState == LOW)
+			{
+				Serial.println("[ Air Pump ]");
+				delay(15);
+				airPumpOn = !airPumpOn;          // toggel switch !!!
+			}
 		}
-	}
-	lastAirPumpState = airPumpState;
+		lastAirPumpState = btmAirPumpState;
 
 
-	// ------------------------------------------- btm  Water Pump  -- waterPumpOn  ----------------------------
+		// ------------------------------------------- btm  Water Pump  -- waterPumpOn  ----------------------------
 
-	waterPumpState = digitalRead(btm_WaterPin);
-	if (waterPumpState != lastWaterPumpState)
-	{
-		if (waterPumpState == LOW)
+		btmWaterPumpState = digitalRead(btm_WaterPin);
+		if (btmWaterPumpState != lastWaterPumpState)
 		{
-			Serial.println("[ Water Pump ]");
-			delay(15);
-			waterPumpOn = !waterPumpOn;          // toggel switch !!!
+			if (btmWaterPumpState == LOW)
+			{
+				Serial.println("[ Water Pump ]");
+				delay(15);
+				waterPumpOn = !waterPumpOn;          // toggel switch !!!
+			}
 		}
-	}
-	lastWaterPumpState = waterPumpState;
+		lastWaterPumpState = btmWaterPumpState;
 
-	// ------------------------------------------- btm  Valve on motor   -- valvesMotorOn  ----------------------------
+		// ------------------------------------------- btm  Valve on motor   -- valvesMotorOn  ----------------------------
 
-	valvesState = digitalRead(btm_VlvPin);
-	if (valvesState != lastValvesState)
-	{
-		if (valvesState == LOW)
+		btmValvesState = digitalRead(btm_VlvPin);
+		if (btmValvesState != lastValvesState)
 		{
-			Serial.println("[ Valves on Motor ]");
-			delay(15);
-			valvesMotorOn = !valvesMotorOn;          // toggel switch !!!
+			if (btmValvesState == LOW)
+			{
+				Serial.println("[ Valves on Motor ]");
+				delay(15);
+				valvesMotorOn = !valvesMotorOn;          // toggel switch !!!
+			}
 		}
-	}
-	lastValvesState = valvesState;
+		lastValvesState = btmValvesState;
 
-	// ------------------------------------------- btm  Fan Radiator on motor   -- fanMotorOn  ----------------------------
+		// ------------------------------------------- btm  Fan Radiator on motor   -- fanMotorOn  ----------------------------
 
-	fanMotorState = digitalRead(btm_FanPin);
-	if (fanMotorState != lastValvesState)
-	{
-		if (fanMotorState == LOW)
+		btmFanMotorState = digitalRead(btm_FanPin);
+		if (btmFanMotorState != lastValvesState)
 		{
-			Serial.println("[  Fan Radiator  ]");
-			delay(15);
-			fanMotorOn = !fanMotorOn;          // toggel switch !!!
+			if (btmFanMotorState == LOW)
+			{
+				Serial.println("[  Fan Radiator  ]");
+				delay(15);
+				fanMotorOn = !fanMotorOn;          // toggel switch !!!
+			}
 		}
-	}
-	lastValvesState = fanMotorState;
-	
+		lastValvesState = btmFanMotorState;
+
 
 
 		// ------------------------------------------- btm  NeoPixles on motor   -- neoPixleMotorOn  ----------------------------
 
-		neoPixleMotorState = digitalRead(btm_FanPin);
-	if (neoPixleMotorState != lastNeoPixleMotorState)
-	{
-		if (neoPixleMotorState == LOW)
+		btmNeoPixleMotorState = digitalRead(btm_FanPin);
+		if (btmNeoPixleMotorState != lastNeoPixleMotorState)
 		{
-			Serial.println("[  Motor neoPixles  ]");
-			delay(15);
-			neoPixleMotorOn = !neoPixleMotorOn;          // toggel switch !!!
+			if (btmNeoPixleMotorState == LOW)
+			{
+				Serial.println("[  Motor neoPixles  ]");
+				delay(15);
+				neoPixleMotorOn = !neoPixleMotorOn;          // toggel switch !!!
+			}
 		}
-	}
-	lastNeoPixleMotorState = neoPixleMotorState;
+		lastNeoPixleMotorState = btmNeoPixleMotorState;
 
+		// -------------------------------------------------- btm  lights on off -- lightsOn lightsLamp ------------------------
+
+		btmLightsState = digitalRead(btmLightsPin);
+		if (btmLightsState != lastBtmLightsState)
+		{
+			if (btmLightsState == LOW)
+			{
+				Serial.println(" [ Lights  ] ");
+				delay(15);
+				lightsOn = !lightsOn;         // toggel switch !!!
+				nextCommand(10);             // play file # 10 in the /cmnd/x.mp3 subdirectory in sd card  - prerecorded
+
+			}
+		}
+		lastBtmLightsState = btmLightsState;
+	
 }// ----END read bottoms routine   ---------------------  
 
 
