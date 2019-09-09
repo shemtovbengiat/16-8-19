@@ -25,7 +25,7 @@ long lightsLampRate;			   // for internal use
 
 
 
-void lampsSwitchsIni()
+void lampsIni()
 {// ----  Lamps in switchs   Initialization  in SETUP routine--------
 	pinMode(startSwLampPin,  OUTPUT);             // set the lamps within switchs  pin as output:
 	pinMode(swLampPin,		 OUTPUT);

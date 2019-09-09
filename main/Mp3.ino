@@ -54,6 +54,8 @@ void playSound(char* path)
 			Serial.println(path);
 		}
 		Serial.println("Started playing");
+		musicPlayer.setVolume(volume, volume);
+
 	}
 	else Serial.println("=== Error: cant stop last file! ===");
 	
@@ -66,26 +68,31 @@ void playSound(char* path)
 
 void nextSong(int i) {				// blcsk weel sw - Song
 	char str[12];
+//	musicPlayer.setVolume(volume, volume);
 	sprintf(str, "songs/%d.mp3", i);
 	playSound(str);
 }
 void nextVocal(int i) {
 	char str[12];
+//	musicPlayer.setVolume(volume, volume);
 	sprintf(str, "vocal/%d.mp3", i);
 	playSound(str);
 }
 void nextStarter(int i) {					// starter sw.
 	char str[12];
+//	musicPlayer.setVolume(volume, volume);
 	sprintf(str, "starter/%d.mp3", i);
 	playSound(str);
 }
 void nextHorn(int i) {					// horn sw,
 	char str[11];
+//	musicPlayer.setVolume(volume, volume);
 	sprintf(str, "vocal/%d.mp3", i);
 	playSound(str);
 }
 void nextCommand(int i) {			// instructions
 	char str[13];
+//	musicPlayer.setVolume(volume, volume);
 	sprintf(str, "comnd/%d.mp3", i);
 	playSound(str);
 }

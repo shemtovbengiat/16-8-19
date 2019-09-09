@@ -86,7 +86,7 @@ volatile bool lightsOn = 0;
 								//  ------ timers 
 volatile int  driveSpeed = 100;			// to be set by the speed encoder potentiometer 0 - 255 full speed
 
-volatile int volume = 20 ;		    	// 0- max volume   80 - min volume 
+//volatile int volume = 20 ;		    	// 0- max volume   80 - min volume 
 
 volatile int lampTimerFast = 60;	//   60 ms  fast
 volatile int lampTimerSlow = 200;	//  200 ms  slow
@@ -112,9 +112,8 @@ void setup()
 	vinkers(0, 0, 0);                        // no vinkers
 	driveIni();
 	neopixleIni();
+	lampsIni();
 	encoderIni();
-	lampsSwitchsIni();
-
 	playSound("TRACK02.MP3");
 //	playSound("comnd/9.MP3");
 
@@ -125,7 +124,7 @@ void setup()
 void loop() {
 
 	readBottoms();
-	//checkEncoder();
+	readEncoder();
 	action();
 	
 }

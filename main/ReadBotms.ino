@@ -71,7 +71,7 @@ void readBottomsIni()
 // ---- Read Bottoms called from within Main routine ( in the loop ) --------------------
 void readBottoms()
 {
-		// --------------------------------------------- btm  START ENGINE -MOTOR ON-------------------------
+		// --------------------------------------------- btm  START ENGINE - MOTOR ON-------------------------
 		btmStartState = digitalRead(btmStartPin);
 		if (btmStartState != lastbtmStartState)
 		{
@@ -85,7 +85,7 @@ void readBottoms()
 		}
 		lastbtmStartState = btmStartState;
 
-		// ----------------------------  ------------------ btm HORN -HORN PUSHED-------------------------
+		// ----------------------------  ------------------ btm HORN - HORN PUSHED-------------------------
 		btmHornState = digitalRead(btmHornPin);
 		if (btmHornState != lastbtmHornState)
 		{

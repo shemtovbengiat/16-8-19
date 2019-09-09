@@ -11,10 +11,10 @@ void action()
 	// ----  drive enable section  ------- 
 	driveEnable = 0;
 	if (drivePedalOn = 1 && motorOn == 1 && (forwardOn == 1 || reverseOn == 1))
-	{
-		driveEnable = 1;    // S A F A T Y  fleg !!!
-	}
-	else driveEnable = 0;
+		{
+			driveEnable = 1;    // S A F A T Y  fleg !!!
+		}
+		else driveEnable = 0;
 
 	//   --- motor section -----
 	if (motorOn == 0)         // start bottom not pushed  yet.. - DO Nothing

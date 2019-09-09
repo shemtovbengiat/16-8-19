@@ -14,11 +14,11 @@
 #define mp3MosiPin         51      // Output data, to VS1053/SD card
 
 // ---  I N P U T S  Panel on motor side plate -------
-#define btm_AirPin          1     //sw Airpump
+#define btm_AirPin          6     //sw Airpump
 #define btm_WaterPin        6     //sw water pamp
-#define btm_VlvPin          3     //sw vlaves-lights red
-#define btm_FanPin          4     // rdiator fan motor 
-#define btm_neoMotrPin      5     // neopixls motor 
+#define btm_VlvPin          6 //sw vlaves-lights red
+#define btm_FanPin          6     // rdiator fan motor 
+#define btm_neoMotrPin      6     // neopixls motor 
 
 // ---  I N P U T S  Main driver Panel  -------
 
@@ -36,10 +36,20 @@
 #define btm_RevPin        A14     //push bottom down 
 #define drivePedalPin     A15     //push pedal drive frw rev.
 
+/*
+const unsigned int pinA = 3;	// Used for generating interrupts using CLK signal
+const unsigned int pinB = 2;	// Used for reading DT signal
+
+const unsigned int swEncoder = A9;	// Used for reading DT signal
+
+
+*/
 //  ----- I N P U T S  Encoder sw for Volum control
-#define encoderDataPin     A4
-#define encoderClockPin     2		//all 3 flexible
-#define encoderSwitchPin   A9
+//#define encoderDataPin      3
+//#define encoderClockPin     2		//all 3 flexible
+//#define pinA      3
+//#define pinB      2		//all 3 flexible
+//#define encoderSwitchPin   A9
 
 // ---  O U T P U T S   ----------
 #define valve1Pin         A10    // LED 1+2 pin  // blinking motor valve pin number 
@@ -72,7 +82,7 @@
 #define neoExhaostPin      11     //data pin for exhaost NeoPixel ring - PWM
 #define neoHeadPin	       12     //?  data pin for head NeoPixel  - PWM
 
-#define swLampPin		  A1	  //  lamps within switches.
+#define swLampPin		   A1	  //  lamps within switches.
 #define startSwLampPin	  A10
 #define lightSwLampPin	  A12
 
@@ -102,11 +112,11 @@ void nextStarter(int i);
 void nextHorn(int i);
 void nextCommand(int i);
 
-void encoderIni();				// -- Encoder for volume 
-void checkEncoder();
+void encoderIni();  // -- Encoder for volume 
+void readEncoder();
 
 void valvesIni();
-void lampsSwitchsIni();
+void lampsIni();
 
 // all the rest 
 void valves(bool valvesOn, bool valvesFast);
@@ -121,7 +131,13 @@ void turnLights(bool L, bool R);
 void vinkers(bool turnLOn, bool turnROn, bool turnFast);     
 void driveIni();
 
-void lampsSwitchsIni();
+void lampsIni();
 void starterLamp(int rate);
 void switchLamp(int rate);
 void lightsLamp(int rate);
+
+void A_RISE();
+void B_RISE();
+
+void A_FALL();
+void B_FALL();
