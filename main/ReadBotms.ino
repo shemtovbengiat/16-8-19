@@ -285,19 +285,23 @@ void readBottoms()
 		}
 		lastNeoPixleMotorState = btmNeoPixleMotorState;
 
-		// -------------------------------------------------- btm  lights on off -- lightsOn lightsLamp ------------------------
+		// -------------------------------------------------- btm  L I G H T S on off -- lightsOn lightsLamp ------------------------
 
 		btmLightsState = digitalRead(btmLightsPin);
 		if (btmLightsState != lastBtmLightsState)
 		{
-			if (btmLightsState == LOW)
+			if (btmLightsState == LOW || btmLightsState == HIGH)
 			{
 				Serial.println(" [ Lights  ] ");
 				delay(15);
-				lightsOn = !lightsOn;         // toggel switch !!!
-				nextCommand(10);             // play file # 10 in the /cmnd/x.mp3 subdirectory in sd card  - prerecorded
+				lightsOn = !lightsOn;
 
+				nextCommand(3);   // play file # 10 in the /cmnd/x.mp3 subdirectory in sd card  - prerecorded
+          
 			}
+			
+			nextCommand(4);
+		
 		}
 		lastBtmLightsState = btmLightsState;
 	

@@ -207,6 +207,7 @@ void neoExhaostShow()
 
 //*********** STOP routines -  turn OFF the NeoPixles***************
 //   S T O P   A L L but not neoInteriorStop the only light that  stays on  
+//************** ************ ************ **************  ****************
 
 void neoStopAll()
 {
@@ -218,7 +219,7 @@ void neoStopAll()
 	neoInteriorStop();
 }
 
-void neoMotorStop()  //  motor
+void neoMotorStop()  // ************   motor
 {
 	for (int i = 0; i < neoMotor.numPixels(); i++)
 	{
@@ -226,7 +227,7 @@ void neoMotorStop()  //  motor
 	}
 	neoMotor.show();
 }
-void neoTurnLStop()	// turn l
+void neoTurnLStop()	// ***********  turn l
 {
 	for (int i = 0; i < neoTurnL.numPixels(); i++)
 	{
@@ -234,7 +235,7 @@ void neoTurnLStop()	// turn l
 	}
 	neoTurnL.show();
 }
-void neoTurnRStop()	// turn R
+void neoTurnRStop()	// **********  turn R
 {
 	for (int i = 0; i < neoTurnR.numPixels(); i++)
 	{
@@ -242,7 +243,7 @@ void neoTurnRStop()	// turn R
 	}
 	neoTurnR.show();
 }
-void neoExhaostStop()    // exhaost
+void neoExhaostStop()    //   ********** exhaost
 {
 	for (int i = 0; i < neoExhaost.numPixels(); i++)
 	{
@@ -250,7 +251,7 @@ void neoExhaostStop()    // exhaost
 	}
 	neoExhaost.show();
 }
-void neoInteriorStop()	// intirior 
+void neoInteriorStop()	//  ************* intirior 
 {
 	for (int i = 0; i < neoInterior.numPixels(); i++)
 	{
@@ -258,7 +259,7 @@ void neoInteriorStop()	// intirior
 	}
 	neoInterior.show();
 }
-void neoHeadStop()  //  headlights 
+void neoHeadStop()  // *************** headlights 
 {
 	for (int i = 0; i < neoHead.numPixels(); i++)
 	{
@@ -266,7 +267,7 @@ void neoHeadStop()  //  headlights
 	}
 	neoHead.show();
 }
-// ******     End of stop neoPixles routineS
+// *************************     End of stop neoPixles routineS
 
 
 /*

@@ -88,9 +88,9 @@ volatile int  driveSpeed = 100;			// to be set by the speed encoder potentiomete
 
 //volatile int volume = 20 ;		    	// 0- max volume   80 - min volume 
 
-volatile int lampTimerFast = 60;	//   60 ms  fast
-volatile int lampTimerSlow = 200;	//  200 ms  slow
-volatile int lampTimerMid =  120;	//  120 ms  middle speed  
+volatile int lampTimerFast = 50;	//  60  ms  fast
+volatile int lampTimerMid =  250;	//  120 ms  middle speed  
+volatile int lampTimerSlow = 400;	//  200 ms  slow
 
 
 //  -------   S E T U  P      ROUTINE  -------------
@@ -124,7 +124,7 @@ void setup()
 void loop() {
 
 	readBottoms();
-	readEncoder();
+	//readEncoder();
 	action();
 	
 }

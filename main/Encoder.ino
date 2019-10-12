@@ -10,7 +10,7 @@
 */
 int  maxVolume =100;
 int minVolume = 0;
-uint8_t volume =40;
+uint8_t volume =10;
 
 // Rotary Encoder Inputs
 #define inputCLK 3

@@ -19,32 +19,51 @@ long timingFast =  lampTimerFast;                 // set at main routine - 10 fa
 long timingSlow =  lampTimerSlow;
 long timingMid =   lampTimerMid;
 
-long startLamprate;				   // for internal use       
-long swLamprate;				   // for internal use       
+long starterLampRate;				   // for internal use       
+long swLampRate;				   // for internal use       
 long lightsLampRate;			   // for internal use       
 
 
 
 void lampsIni()
-{// ----  Lamps in switchs   Initialization  in SETUP routine--------
-	pinMode(startSwLampPin,  OUTPUT);             // set the lamps within switchs  pin as output:
+{// ----  Lamps in switchs   Initialization  in SETUP routine    --------
+	pinMode(starterSwLampPin,  OUTPUT);             // set the lamps within switchs  pin as output:
 	pinMode(swLampPin,		 OUTPUT);
 	pinMode(lightSwLampPin,  OUTPUT);
 }//  ----- end of Ini routine 
 
+// ***************************************************************
+// light all lamps in one comand on off slow mid or fast 0-4 --------
+//*****************************************************************
 
-//  ----- SWITCH LAMP routine
-void switchLamp(int rate)   // ---- rate - 0 off, 1 fast, 2  slow, 3 middle  
+void set3Lamps(int sw , int lght , int  start  ) 
 {
-	if (rate == 0)  		digitalWrite(swLampPin, 0);
+	int lamp1 = sw;
+	int lamp2 = lght;
+	int lamp3 = start;
 
-	else if (rate == 1)          swLamprate = timingFast;
-	else if (rate == 2)          swLamprate = timingSlow;
-	else if (rate == 3)          swLamprate = timingMid;
+	switchLamp(lamp1);
+	lightsLamp(lamp2);
+	starterLamp(lamp3);
+}
+//  ----- SWITCH LAMP routine  ***********************************
+void switchLamp(int rate)   // ---- rate = 0-off, 1-on, 2-slow, 3-mid, 4-fast   
+{
+	if (rate == 0) {
+		digitalWrite(swLampPin, 0);
+		return;
+	}
+	else if (rate == 1) {
+		digitalWrite(swLampPin, 1);
+		return;
+	}
+	else if (rate == 2)          swLampRate = timingSlow;
+	else if (rate == 3)          swLampRate = timingMid;
+	else if (rate == 4)          swLampRate = timingFast;
 
 
 	unsigned long currentSwLampMs = millis();
-	if (currentSwLampMs - previousSwLampMs >= swLamprate)
+	if (currentSwLampMs - previousSwLampMs >= swLampRate)
 	{
 		previousSwLampMs = currentSwLampMs;
 
@@ -60,16 +79,23 @@ void switchLamp(int rate)   // ---- rate - 0 off, 1 fast, 2  slow, 3 middle
 }//  ----  end of SWITCH Lamp routine ---
 
 
-//  ----- LIGHTS LAMP routine
+//  ----- LIGHTS LAMP routine  **************************
 void lightsLamp(int rate)   // ---- rate - 0 off, 1 fast, 2  slow, 3 middle  
 {
-	if (rate == 0) { lightsLampRate = timingMid; }
-		
-// digitalWrite(lightSwLampPin, 0);
 
-	else if (rate == 1)          lightsLampRate = timingFast;
+
+	if (rate == 0) {
+		digitalWrite(lightSwLampPin, 0);
+		return;
+	}
+	else if (rate == 1) {
+		digitalWrite(lightSwLampPin, 1);
+		return;
+	}
+
 	else if (rate == 2)          lightsLampRate = timingSlow;
 	else if (rate == 3)          lightsLampRate = timingMid;
+	else if (rate == 4)          lightsLampRate = timingFast;
 
 
 	unsigned long currentLightsSwLampMS = millis();
@@ -91,22 +117,28 @@ void lightsLamp(int rate)   // ---- rate - 0 off, 1 fast, 2  slow, 3 middle
 
 
 
-//  ----  STARTER LAMP routine
+//  ----  STARTER LAMP routine    *****************************************
 void starterLamp(int rate)   // ---- rate - 0 off, 1 fast, 2  slow, 3 middle  
 {
-	if (rate == 0) { 
-		digitalWrite(startSwLampPin, 0);
+
+	if (rate == 0) {
+		digitalWrite(starterSwLampPin, 0);
+		return;
 	}
-	
-	else if (rate == 1)          startLamprate = timingFast;           
-	else if (rate == 2)          startLamprate = timingSlow;
-	else if (rate == 3)          startLamprate = timingMid;
+	else if (rate == 1) {
+		digitalWrite(starterSwLampPin, 1);
+		return;
+	}
+
+	else if (rate == 2)          starterLampRate = timingSlow;           
+	else if (rate == 3)          starterLampRate = timingMid;
+	else if (rate == 4)          starterLampRate = timingFast;
 
 
-	unsigned long currentStrtSwLampMs = millis();
-	if (currentStrtSwLampMs - previousStrtSwLampMs >= startLamprate)
+	unsigned long currentStrterSwLampMs = millis();
+	if (currentStrterSwLampMs - previousStrtSwLampMs >= starterLampRate)
 	{
-		previousStrtSwLampMs = currentStrtSwLampMs;  
+		previousStrtSwLampMs = currentStrterSwLampMs;  
 		if (starterSwLampState == LOW)
 		{
 			starterSwLampState = HIGH;
@@ -114,7 +146,7 @@ void starterLamp(int rate)   // ---- rate - 0 off, 1 fast, 2  slow, 3 middle
 		else {
 			starterSwLampState = LOW;
 		}
-		digitalWrite(startSwLampPin, starterSwLampState);
+		digitalWrite(starterSwLampPin, starterSwLampState);
 	}
 }//  ----  end of starter Lamp routine ---
 
