@@ -17,9 +17,9 @@ bool btmAirPumpState = 0;			// ---------- 8-2019 ---------
 bool btmWaterPumpState = 0;
 bool btmValvesState = 0;
 bool btmFanMotorState = 0;
-bool btmNeoPixleMotorState = 0;
 bool btmLightsState = 0;
 
+bool btmNeoPixleMotorState = 0;
 //    -------- Last xx state ------
 bool lastbtmStartState = 0;
 bool lastbtmHornState = 0;
@@ -43,36 +43,32 @@ bool lastNeoPixleMotorState = 0;
 // ---  INI routine called from within SETUP routine ----
 void readBottomsIni()
 {
-	pinMode(btmStartPin,	 INPUT_PULLUP);    // define all bottoms with pullup resistor      
+	pinMode(btmStartEngPin,	 INPUT_PULLUP);    // define all bottoms with pullup resistor      
+	pinMode(btmLightsPin,    INPUT_PULLUP);
 	pinMode(btmHornPin,		 INPUT_PULLUP);
 	pinMode(wheelBtm1Pin,	 INPUT_PULLUP);
 	pinMode(wheelBtm2Pin,	 INPUT_PULLUP);
 	pinMode(wheelBtm3Pin,	 INPUT_PULLUP);
-	pinMode(btm_L_pin,		 INPUT_PULLUP);
-	pinMode(btm_R_pin,		 INPUT_PULLUP);
-	pinMode(btm_FwPin,		 INPUT_PULLUP);
-	pinMode(btm_RevPin,		 INPUT_PULLUP);
+	pinMode(sw_L_turnPin,	 INPUT_PULLUP);
+	pinMode(sw_R_turnPin,	 INPUT_PULLUP);
+	pinMode(gearFwPin,		 INPUT_PULLUP);
+	pinMode(gearRevPin,		 INPUT_PULLUP);
 	pinMode(drivePedalPin,	 INPUT_PULLUP);
 
-	pinMode(btm_AirPin ,	 INPUT_PULLUP);    // front motor panel  all bottoms with pullup resistor      
+	pinMode(btm_AirPin ,	 INPUT_PULLUP);    // motor panel  all bottoms with pullup resistor      
 	pinMode(btm_WaterPin ,	 INPUT_PULLUP);
 	pinMode(btm_VlvPin ,     INPUT_PULLUP);
 	pinMode(btm_FanPin ,     INPUT_PULLUP);
 	pinMode(btm_neoMotrPin , INPUT_PULLUP);
-	
-	pinMode(btmLightsPin,    INPUT_PULLUP);
 
-	pinMode(startlampPin,	 OUTPUT);
-	pinMode(wtrPumpLampPin,  OUTPUT);
-	pinMode(airPumpLampPin,  OUTPUT);
-}  // --- END of readBottoms INI rotine
+}// --- END of readBottoms INI rotine
 
 
 // ---- Read Bottoms called from within Main routine ( in the loop ) --------------------
 void readBottoms()
 {
 		// --------------------------------------------- btm  START ENGINE - MOTOR ON-------------------------
-		btmStartState = digitalRead(btmStartPin);
+		btmStartState = digitalRead(btmStartEngPin);
 		if (btmStartState != lastbtmStartState)
 		{
 			if (btmStartState == LOW)
@@ -100,7 +96,7 @@ void readBottoms()
 
 		// -------------------------------------------------- btm  RIGHT SIGNAL- -turnROn------------------------
 
-		btm_rState = digitalRead(btm_R_pin);
+		btm_rState = digitalRead(sw_R_turnPin);
 		if (btm_rState != lastbtm_rState)
 		{
 			if (btm_rState == LOW)
@@ -116,7 +112,7 @@ void readBottoms()
 
 		// -------------------------------------------------- btm  LEFT SIGNAL-turnLOn-------------------------
 
-		btm_lState = digitalRead(btm_L_pin);
+		btm_lState = digitalRead(sw_L_turnPin);
 		if (btm_lState != lastbtm_lState)
 		{
 			if (btm_lState == LOW)
@@ -129,7 +125,7 @@ void readBottoms()
 		lastbtm_lState = btm_lState;
 
 		// ------------------------------------------- btm   REVERSE -- reverseOn------------------------
-		btm_Rev_state = digitalRead(btm_RevPin);
+		btm_Rev_state = digitalRead(gearRevPin);
 		if (btm_Rev_state != lastbtm_Rev_state)
 		{
 			if (btm_Rev_state == LOW)
@@ -142,7 +138,7 @@ void readBottoms()
 		lastbtm_Rev_state = btm_Rev_state;
 
 		// ------------------------------------------- btm  FORWARD -- forwardOn-----------------------
-		btm_Fw_state = digitalRead(btm_FwPin);
+		btm_Fw_state = digitalRead(gearFwPin);
 		if (btm_Fw_state != lastbtm_Fw_state)
 		{
 			if (btm_Fw_state == LOW)

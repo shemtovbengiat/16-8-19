@@ -26,8 +26,6 @@ Adafruit_NeoPixel neoMotor =    Adafruit_NeoPixel(neoMotorNo,    neoMotorPin, NE
 Adafruit_NeoPixel neoTurnL =    Adafruit_NeoPixel(neoTurnLNo,    neoTurnLPin, NEO_GRB + NEO_KHZ800);
 Adafruit_NeoPixel neoTurnR =    Adafruit_NeoPixel(neoTurnRNo,    neoTurnRPin, NEO_GRB + NEO_KHZ800);
 Adafruit_NeoPixel neoInterior = Adafruit_NeoPixel(neoInteriorNo, neoInteriorPin, NEO_GRB + NEO_KHZ800);
-Adafruit_NeoPixel neoExhaost =  Adafruit_NeoPixel(neoExhaostNo,  neoExhaostPin, NEO_GRB + NEO_KHZ800);
-Adafruit_NeoPixel neoHead =     Adafruit_NeoPixel(neoHeadNo,     neoHeadPin, NEO_GRB + NEO_KHZ800);
 
 // ----  Pumps - Construct the motor shield object with the default I2C address
 Adafruit_MotorShield PUMPS = Adafruit_MotorShield(); 
@@ -86,7 +84,7 @@ volatile bool lightsOn = 0;
 								//  ------ timers 
 volatile int  driveSpeed = 100;			// to be set by the speed encoder potentiometer 0 - 255 full speed
 
-//volatile int volume = 20 ;		    	// 0- max volume   80 - min volume 
+volatile int volume = 20 ;		    	// 0- max volume   80 - min volume 
 
 volatile int lampTimerFast = 50;	//  60  ms  fast
 volatile int lampTimerMid =  250;	//  120 ms  middle speed  
@@ -113,7 +111,7 @@ void setup()
 	driveIni();
 	neopixleIni();
 	lampsIni();
-	encoderIni();
+//	encoderIni();
 	playSound("TRACK02.MP3");
 //	playSound("comnd/9.MP3");
 

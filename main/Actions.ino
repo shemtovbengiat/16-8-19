@@ -20,14 +20,9 @@ void action()
 	if (motorOn == 0)         // start bottom not pushed  yet.. - DO Nothing
 	{
 		pumps(0, 0);                              // water and air pumps fan motor (0=off 1=on slow, 1=fast 0=slow)
-		//musicPlayer.sineTest(0x44, 100);       // Make a tone to indicate VS1053 is working
 		neoInteriorShow(0);
-		//motorValves(1, 0); 
-		//neoMotorShow();
-		//nextCommand(6);          // low rpm sound 1000rpm
-		//switchLamp(0);
-		//starterLamp(0);
-		//lightsLamp(0);
+		valves(1, 0); 
+		neoMotorShow();
 		set3Lamps(1, 0, 1);   // sw, lights, starter 0-off 1-on 2-slow 3-mid 4-fast rate
 	}
 // ==========================================================================

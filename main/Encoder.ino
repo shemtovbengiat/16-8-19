@@ -7,7 +7,7 @@
  Displays results on Serial Monitor
  DroneBot Workshop 2019
  https://dronebotworkshop.com
-*/
+
 int  maxVolume =100;
 int minVolume = 0;
 uint8_t volume =10;
@@ -66,7 +66,7 @@ void readEncoder()
 
 
 
-/*
+
 
 
 

@@ -24,7 +24,6 @@ void neopixleIni()
 	neoTurnL.begin();
 	neoTurnR.begin();
 	neoInterior.begin();
-	neoExhaost.begin();
 
 	neoStopAll();
 }//---END of INITIALIZATION routine
@@ -173,36 +172,6 @@ void neoMotorShow()
 
 //  Head lights   -------------
 
-void neoHeadShow()
-{
-	if (i < neoHead.numPixels())
-	{
-		neoHead.setPixelColor(i, random(0, 155), 0, random(0, 155));
-		neoHead.show();
-		i++;
-	}
-	else
-	{
-		i = 0;
-	}
-}
-
-//exhaost
-
-void neoExhaostShow()
-{
-	if (i < neoExhaost.numPixels())
-	{
-		neoExhaost.setPixelColor(i, random(0, 155), 0, random(0, 155));
-		neoExhaost.show();
-		i++;
-	}
-	else
-	{
-		i = 0;
-	}
-}
-
 
 
 //*********** STOP routines -  turn OFF the NeoPixles***************
@@ -214,8 +183,6 @@ void neoStopAll()
 	neoMotorStop   ();
 	neoTurnRStop   ();
 	neoTurnLStop   ();
-	neoExhaostStop ();
-	neoHeadStop    ();
 	neoInteriorStop();
 }
 
@@ -243,14 +210,6 @@ void neoTurnRStop()	// **********  turn R
 	}
 	neoTurnR.show();
 }
-void neoExhaostStop()    //   ********** exhaost
-{
-	for (int i = 0; i < neoExhaost.numPixels(); i++)
-	{
-		neoExhaost.setPixelColor(i, 0, 0, 0);
-	}
-	neoExhaost.show();
-}
 void neoInteriorStop()	//  ************* intirior 
 {
 	for (int i = 0; i < neoInterior.numPixels(); i++)
@@ -258,14 +217,6 @@ void neoInteriorStop()	//  ************* intirior
 		neoInterior.setPixelColor(i, 0, 0, 0);
 	}
 	neoInterior.show();
-}
-void neoHeadStop()  // *************** headlights 
-{
-	for (int i = 0; i < neoHead.numPixels(); i++)
-	{
-		neoHead.setPixelColor(i, 0, 0, 0);
-	}
-	neoHead.show();
 }
 // *************************     End of stop neoPixles routineS
 

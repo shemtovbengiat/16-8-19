@@ -5,7 +5,7 @@
  http://www.arduino.cc/en/Tutorial/BlinkWithoutDelay
  */
 
-bool valvesOn = 0;                  // 0-leds off 1 leds on fast or slow to be changed by calling routine !
+bool valvesOn =   0;                  // 0-leds off 1 leds on fast or slow to be changed by calling routine !
 bool valvesFast = 0;                // 0-slow 1 fast       -    motorVales(valvesOn,valesFast)
 
 int valve1State = LOW;                  // ledState used to set the LED

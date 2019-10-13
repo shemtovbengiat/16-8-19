@@ -1,6 +1,7 @@
 /*
     ----- LAMPS routine   - timers to drive  slow or fast rate  for the swithces lamp 12v
-	----- called form action routine 
+	----- called form action routine/
+	---- 
 */
 
 int starterSwLampState		= 0;                   // state used to set the lamps
@@ -27,9 +28,9 @@ long lightsLampRate;			   // for internal use
 
 void lampsIni()
 {// ----  Lamps in switchs   Initialization  in SETUP routine    --------
-	pinMode(starterSwLampPin,  OUTPUT);             // set the lamps within switchs  pin as output:
-	pinMode(swLampPin,		 OUTPUT);
-	pinMode(lightSwLampPin,  OUTPUT);
+	pinMode(startEngineLampPin,  OUTPUT);             // set the lamps within switchs  pin as output:
+	pinMode(swLampPin,			 OUTPUT);
+	pinMode(lightsSwLampPin,     OUTPUT);
 }//  ----- end of Ini routine 
 
 // ***************************************************************
@@ -85,11 +86,11 @@ void lightsLamp(int rate)   // ---- rate - 0 off, 1 fast, 2  slow, 3 middle
 
 
 	if (rate == 0) {
-		digitalWrite(lightSwLampPin, 0);
+		digitalWrite(lightsSwLampPin, 0);
 		return;
 	}
 	else if (rate == 1) {
-		digitalWrite(lightSwLampPin, 1);
+		digitalWrite(lightsSwLampPin, 1);
 		return;
 	}
 
@@ -110,7 +111,7 @@ void lightsLamp(int rate)   // ---- rate - 0 off, 1 fast, 2  slow, 3 middle
 		else {
 			lightsLampState = LOW;
 		}
-		digitalWrite(lightSwLampPin, lightsLampState);
+		digitalWrite(lightsSwLampPin, lightsLampState);
 	}
 }//  ----  end of LIGHTS Lamp routine ---
 
@@ -122,11 +123,11 @@ void starterLamp(int rate)   // ---- rate - 0 off, 1 fast, 2  slow, 3 middle
 {
 
 	if (rate == 0) {
-		digitalWrite(starterSwLampPin, 0);
+		digitalWrite(lightsSwLampPin, 0);
 		return;
 	}
 	else if (rate == 1) {
-		digitalWrite(starterSwLampPin, 1);
+		digitalWrite(lightsSwLampPin, 1);
 		return;
 	}
 
@@ -146,7 +147,7 @@ void starterLamp(int rate)   // ---- rate - 0 off, 1 fast, 2  slow, 3 middle
 		else {
 			starterSwLampState = LOW;
 		}
-		digitalWrite(starterSwLampPin, starterSwLampState);
+		digitalWrite(lightsSwLampPin, starterSwLampState);
 	}
 }//  ----  end of starter Lamp routine ---
 

@@ -1,18 +1,19 @@
 /*
- ------   Pumps Routine ------- 
- --- there are 3 motors - air, water pumps and 1 fan motor
- --- all connected to Adafruit Motor Shield v2 ->http://www.adafruit.com/products/1438
- --- shild used with the I2C protocol standrt address.
-*/
+ ------  new Pumps Routine --   No shiled ----- 
+ --- There are 3 motors - air pump, water pump and radiator fan.
+ --- All 3 motors connected dirct to relay 12 volt
+ --- There are 3 more bottoms that toggel each motor on/off independentally while turning engine turn 3 on/off automatically. 
+ --- There is also one bottom to switch relay (out of 8) designeated to front lingts (was direct from battary!) 
+ */
 
 // --- Initilatziotion Routine from SETUP 
 void pumpsIni()
 {
 	Serial.println("Pumps initiated");
-	PUMPS.begin();               // create with the default frequency 1.6KHz
-	waterPump-> run(RELEASE);    //reales == STOP   at STARTtttttt
-	airPump->   run(RELEASE);    //reales == STOP   at STARTtttttt
-	fanMotor->  run(RELEASE);    //reales == STOP   at STARTtttttt
+	pinMode(waterPumpRelayPin,   OUTPUT);            
+	pinMode(airPumpRelayPin,     OUTPUT);
+	pinMode(radiatorRelayPin,    OUTPUT);
+
 }//----END of PUMP Initilatziotion Routine
 
 
