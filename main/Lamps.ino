@@ -16,13 +16,13 @@ unsigned long currentStrtSwLampMs   = 0;          // current time lamps where up
 unsigned long currentSwLampMs       = 0;
 unsigned long currentLightsSwLampMS = 0;
 
-long timingFast =  lampTimerFast;                 // set at main routine - 10 fast 200 slow / ms
-long timingSlow =  lampTimerSlow;
-long timingMid =   lampTimerMid;
+long timingLampFast =  lampTimerFast;                 // set at main routine - 10 fast 200 slow / ms
+long timingLampSlow =  lampTimerSlow;
+long timingLampMid =   lampTimerMid;
 
 long starterLampRate;				   // for internal use       
-long swLampRate;				   // for internal use       
-long lightsLampRate;			   // for internal use       
+long swLampRate;				       // for internal use       
+long lightsLampRate;			       // for internal use       
 
 
 
@@ -43,9 +43,9 @@ void set3Lamps(int sw , int lght , int  start  )
 	int lamp2 = lght;
 	int lamp3 = start;
 
-	switchLamp(lamp1);
-	lightsLamp(lamp2);
-	starterLamp(lamp3);
+	switchLamp   (lamp1);
+	lightsLamp   (lamp2);
+	starterLamp  (lamp3);
 }
 //  ----- SWITCH LAMP routine  ***********************************
 void switchLamp(int rate)   // ---- rate = 0-off, 1-on, 2-slow, 3-mid, 4-fast   
@@ -58,9 +58,9 @@ void switchLamp(int rate)   // ---- rate = 0-off, 1-on, 2-slow, 3-mid, 4-fast
 		digitalWrite(swLampPin, 1);
 		return;
 	}
-	else if (rate == 2)          swLampRate = timingSlow;
-	else if (rate == 3)          swLampRate = timingMid;
-	else if (rate == 4)          swLampRate = timingFast;
+	else if (rate == 2)          swLampRate = timingLampSlow;
+	else if (rate == 3)          swLampRate = timingLampMid;
+	else if (rate == 4)          swLampRate = timingLampFast;
 
 
 	unsigned long currentSwLampMs = millis();
@@ -94,9 +94,9 @@ void lightsLamp(int rate)   // ---- rate - 0 off, 1 fast, 2  slow, 3 middle
 		return;
 	}
 
-	else if (rate == 2)          lightsLampRate = timingSlow;
-	else if (rate == 3)          lightsLampRate = timingMid;
-	else if (rate == 4)          lightsLampRate = timingFast;
+	else if (rate == 2)          lightsLampRate = timingLampSlow;
+	else if (rate == 3)          lightsLampRate = timingLampMid;
+	else if (rate == 4)          lightsLampRate = timingLampFast;
 
 
 	unsigned long currentLightsSwLampMS = millis();
@@ -131,9 +131,9 @@ void starterLamp(int rate)   // ---- rate - 0 off, 1 fast, 2  slow, 3 middle
 		return;
 	}
 
-	else if (rate == 2)          starterLampRate = timingSlow;           
-	else if (rate == 3)          starterLampRate = timingMid;
-	else if (rate == 4)          starterLampRate = timingFast;
+	else if (rate == 2)          starterLampRate = timingLampSlow;           
+	else if (rate == 3)          starterLampRate = timingLampMid;
+	else if (rate == 4)          starterLampRate = timingLampFast;
 
 
 	unsigned long currentStrterSwLampMs = millis();

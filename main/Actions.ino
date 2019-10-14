@@ -1,63 +1,63 @@
 
 
-/*          ---------    Actions routine ------------
- here we make decisions on what to do with the inputs and outputs based on global variables on the main file
- */
-
+//  ***********************    Actions routine     ************************************************************
+//  here we make decisions on what to do with the inputs and outputs based on global variables on the main file
+//  ***********************************************************************************************************
 void action()
 {
-	// --------  Drive Motors  section  -------------------------
-
-	// ----  drive enable section  ------- 
+	//   ***********************  set Drive ENABLE  ********************
 	driveEnable = 0;
 	if (drivePedalOn = 1 && motorOn == 1 && (forwardOn == 1 || reverseOn == 1))
 		{
-			driveEnable = 1;    // S A F A T Y  fleg !!!
+			driveEnable = 1;				 // S A F A T Y  fleg !!!
 		}
 		else driveEnable = 0;
 
-	//   --- motor section -----
-	if (motorOn == 0)         // start bottom not pushed  yet.. - DO Nothing
+	//  **********************   motor section   **************
+	if (motorOn == 0)							 // Motor OFF -  start engine not pushed  yet.. - DO Nothing
 	{
-		pumps(0, 0);                              // water and air pumps fan motor (0=off 1=on slow, 1=fast 0=slow)
-		neoInteriorShow(0);
-		valves(1, 0); 
+		valves(0, 0);
+		fanMotor(0);
+		
 		neoMotorShow();
-		set3Lamps(1, 0, 1);   // sw, lights, starter 0-off 1-on 2-slow 3-mid 4-fast rate
+		neoInteriorShow(0);
+		
+		set3Lamps(1, 0, 1);						// sw, lights, starter 0-off 1-on 2-slow 3-mid 4-fast rate
 	}
-// ==========================================================================
-	if (motorOn == 1 && driveEnable == 0)         
-									//   START bottom pushed motorOn ==1
+	//  *********************   Start Engine   ****************
+	if (motorOn == 1 && driveEnable == 0)	    // start engine bottom pushed   motorOn ==1
 	{
-		pumps(1, 0);                // water and air pumps fan motor (0=off 1=on slow, 1=fast 0=slow)
-		//neoMotorShow();
+		set3Lamps(1,1,2);		//sw, lights, starter       0-off 1-on 2-slow 3-mid 4-fast rate
+									           
+		neoMotorShow();
 		neoInteriorShow(1);
 		
-		valves(1, 1);
-		//switchLamp(4);
-		//starterLamp(2);
-		//lightsLamp(3);
-		set3Lamps(1,1,1);    // sw, lights, starter 0-off 1-on 2-slow 3-mid 4-fast rate
-		//  ---- starter switch -  check to see if pushed again   ----------------------
-		if (startBtmNumber != startBtmNumberOld)
+		valves	   (1, 1);		// 1=on, 1= slow rate blinking
+		
+		fanMotor   (2);			// 0=off, 1=on,  2=slow,   3=fast
+		airMotor   (2);
+		waterMotor (2);
+
+
+		
+		if (startBtmNumber != startBtmNumberOld)		//  ---- starter switch -  check to see if pushed again   ----------------------
 		{
 			Serial.println(startBtmNumber);
 			startBtmNumberOld = startBtmNumber;
-			nextStarter(startBtmNumber);
+			nextStarter(startBtmNumber);				// mp3 play starter sound random 
 		}
 
 		if (lightsOn = 1) {
-			lightsLamp(4); // flash slow
+			lightsLamp(4);								// flash slow led inside light switch
 		}
 		
 	}
 //=============================================================================
 	if (motorOn == 1 && driveEnable == 1)        // verify that no driving if first set F or R and only then drive pedal push
 	{
-		//musicPlayer.sineTest(0x44, 500);    // Make a tone to indicate VS1053 is working
-		valves(1, 1);                     //rpm  = fast
-		pumps(1, 1);                           //rpm  = fast
-
+		valves(1, 1);							//rpm  = fast
+		fanMotor (3);                           //1 = on
+		waterMotor(1);
 		
 
 
