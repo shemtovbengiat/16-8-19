@@ -1,29 +1,28 @@
 //  ------------   main file --------------------
 
-#define DEBUG
-#include <Adafruit_VS1053.h> 
+
 #include "config.h"
 #include <SPI.h>
+#include <Adafruit_VS1053.h>
 #include <SD.h>
-#include <Wire.h>
-//#include "utility/Adafruit_MS_PWMServoDriver.h"
-#include <btsmotordriver.h>
 #include <Adafruit_NeoPixel.h>
+
+
+#include <Wire.h>
+
 
 //   -----   MP 3 -----------
 Adafruit_VS1053_FilePlayer musicPlayer = Adafruit_VS1053_FilePlayer(mp3ResetPin, mp3CsPin, mp3DcsPin, mp3DreqPin, mp3SDCardsPin);
 
 // ------  NeoPixles -  constructing 6 classs for each neopixle, ---      pin # of strip in config !!! ----
-#define neoMotorNo		42     //number of leds for engine NeoPixel ;
-#define neoHeadNo       12     //number of leds for head light NeoPixel
-#define neoInteriorNo   12     //number of leds for interior NeoPixel
-#define neoExhaostNo    9      //number of leds for exhaost NeoPixel ring 
+#define neoMotorNo		10     // 42  temp 19 number of leds for engine NeoPixel ;
 #define neoTurnLNo	  	12
 #define neoTurnRNo	  	12
+#define neoInteriorNo   12     //number of leds for interior NeoPixel
 
-Adafruit_NeoPixel neoMotor =    Adafruit_NeoPixel(neoMotorNo,    neoMotorPin, NEO_GRB + NEO_KHZ800);
-Adafruit_NeoPixel neoTurnL =    Adafruit_NeoPixel(neoTurnLNo,    neoTurnLPin, NEO_GRB + NEO_KHZ800);
-Adafruit_NeoPixel neoTurnR =    Adafruit_NeoPixel(neoTurnRNo,    neoTurnRPin, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel neoMotor =    Adafruit_NeoPixel(neoMotorNo,    neoMotorPin,    NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel neoTurnL =    Adafruit_NeoPixel(neoTurnLNo,    neoTurnLPin,    NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel neoTurnR =    Adafruit_NeoPixel(neoTurnRNo,    neoTurnRPin,    NEO_GRB + NEO_KHZ800);
 Adafruit_NeoPixel neoInterior = Adafruit_NeoPixel(neoInteriorNo, neoInteriorPin, NEO_GRB + NEO_KHZ800);
 
 
@@ -61,37 +60,52 @@ volatile int hornBtmNumber = 0;
 volatile int hornBtm =       0;
 volatile int hornBtmOld =    0;
 
+
 volatile bool isMP3On =      0;
 int songCount =              0;
 
-									// 8-19 added 5 motor functions switchs 
+										// 8-2019 added 7  functions motor, switchs 
 volatile bool airPumpOn =       0;
 volatile bool waterPumpOn =     0;
-volatile bool valvesMotorOn =   0;
+volatile bool battaryDeadOn =   0;
 volatile bool fanMotorOn =      0;
 volatile bool neoPixleMotorOn = 0;
 volatile bool lightsOn =        0;
+volatile bool swRasbPiOn =		0;
 
-//   -----   variable to set beeps of Pumps air,  water and fan
-volatile int airSpeed =   0;
+volatile int neoMotorNumber =	 0;     // no. of times bottom to pushed in a second to  decide patern of behavieor
+volatile int airPumpNumber =     0;
+volatile int waterPumpNumber =   0;
+volatile int fanMotorNumber =    0;
+
+
+volatile int airSpeed =   0;				//   -----   variable to set beeps of Pumps air,  water and fan
 volatile int fanSpeed =   0;
 volatile int waterSpeed = 0;
 
-//  ------   timing twicking 
-volatile int  driveSpeed     =  100;		// to be set by the speed encoder potentiometer 0 - 255 full speed
+volatile bool shutDownRelayOn =    0;			// 1=shut down, xx min. passed no action !! 0= system good
+volatile bool doSomethingCrazy =   0;			// 1=do somthing random 1-10 at random time ,  0= do all the rest
+
+//  ------   Timing / Twicking 
+volatile int  driveSpeed     =   100;		// to be set by the speed encoder potentiometer 0 - 255 full speed
  
-volatile int  volume		 =   20;		// 0- max volume   80 - min volume 
+volatile int  volume		 =    20;		// 0- max volume   80 - min volume 
 
-volatile int  lampTimerFast  =   50;	    //  60  ms  fast
-volatile int  lampTimerMid   =  250;	    //  120 ms  middle speed  
-volatile int  lampTimerSlow  =  400;    	//  200 ms  slow
+volatile int  shutDownTimer  =     1;		// 5 min. ~ time (min.)if no action --> shutdown & disconnect power. recycle key needed !
+volatile int  maxTimeToInterupt = 10;		// 120 sec. ~ maxTimeToInterupt (seconds) to make RANDOM crazy things see shutdown routine
+volatile int  crazyNumber		=  0;		// 1-10 "x"-massage # X --> in sd\massages\x.mp3 
 
-volatile int  waterTimerFast =   50;        // fine tuning of the motor beeps beep beep...
-volatile int  waterTimerSlow =  200;        // 10 fast 200 slow / ms
-volatile int  airTimerFast	 =   50;
-volatile int  airTimerSlow   =  200;
-volatile int  fanTimerFast   =   50;    
-volatile int  fanTimerSlow   =  200;
+
+volatile int  lampTimerFast  =    50;	    // 60  ms  fast
+volatile int  lampTimerMid   =    50;	    // 120 ms  middle speed  
+volatile int  lampTimerSlow  =  1000;    	// 200 ms  slow
+
+volatile int  waterTimerFast =     50;      // fine tuning of the motor beeps beep beep...
+volatile int  waterTimerSlow =    200;      // 10 fast 200 slow / ms
+volatile int  airTimerFast	 =     50;
+volatile int  airTimerSlow   =    200;
+volatile int  fanTimerFast   =     50;    
+volatile int  fanTimerSlow   =    200;
 
 //  ************************************************
 //  -------   S E T U  P      routine  -------------
@@ -100,23 +114,25 @@ void setup()
 {
 	Serial.begin(115200);
 	randomSeed(analogRead(A0));    // for not requering random numbers
-
+	Serial.println(analogRead(A0));
+	/*
 	#if defined(DEBUG)
 		Serial.println("DEBUG mode!");
 	#endif
-
-	mp3Ini();       //  --------O N L Y  initilazition routins in SETUP 
+*/
+	shutDownIni();		//  --------O N L Y  initilazition routins in SETUP 
+	mp3Ini();       
 	valvesIni();
 	readBottomsIni();
 	pumpsIni();
 	turnIni();
-	vinkers(0, 0, 0);                        // no vinkers
 	driveIni();
 	neopixleIni();
 	lampsIni();
+	
 	playSound("TRACK02.MP3");
 
-}//---  end of  SETUP routine  ---
+};//---  end of  SETUP routine  ---
 
 //  **************************************
 //  -------   Main LOOP  routine  ---=----
@@ -124,7 +140,7 @@ void setup()
 void loop() 
 {
 	readBottoms();
-	runNeoPixles();
- 	action();
-}// ---  END of loop routine  -----
+	action();
+	shutDown();
+};// ---  END of loop routine  -----
 

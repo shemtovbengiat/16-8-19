@@ -45,7 +45,7 @@ long timingFanSlow   = fanTimerSlow;
 //  ----  end of declering variables ----------
 
 //  ***************************   Fan Motor routine  ***********************
-void fanMotor   (int fanSpeed){                //  0-Off, 1 -On, 2-Slow,  3-Fast.
+void fanMotor   (int fanSpeed){                //called from actions rutine  0-Off, 1 -On, 2-Slow,  3-Fast.
 	if (fanSpeed == 0){
 		digitalWrite(fanMotorRelayPin, 0);
 		return;
@@ -77,7 +77,7 @@ void fanMotor   (int fanSpeed){                //  0-Off, 1 -On, 2-Slow,  3-Fast
 
 //  ******************************  Water Motor routine  **************
 void waterMotor(int waterSpeed) {
-	if (waterSpeed == 0) {						//  0-Off, 1 -On, 2-Slow,  3-Fast.
+	if (waterSpeed == 0) {						// called from actions rutine     0-Off, 1 -On, 2-Slow,  3-Fast.
 		digitalWrite(waterPumpRelayPin, 0);
 		return;
 	}
@@ -107,7 +107,7 @@ void waterMotor(int waterSpeed) {
 
 //  *************************   Air Motor routine  **********************
 void airMotor(int airSpeed) {
-	if (airSpeed == 0) {							//  0-Off, 1 -On,  2-Slow,  3-Fast.
+	if (airSpeed == 0) {							//   called from actions rutine     0-Off, 1 -On,  2-Slow,  3-Fast.
 		digitalWrite(airPumpRelayPin, 0);
 		return;
 	}

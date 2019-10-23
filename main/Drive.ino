@@ -11,7 +11,7 @@ The class has 4 commands: stop() - all 4 pins go 0,
 						  turnRight(0-255) motor counter clockwise - reverse  at speed 0-255 to be set user 
 */
 
-BTS7960MotorDriver driveMotors(drvMotorEnPin1, drvMotorEnPin2, drvMotorPwmPin1, drvMotorPwmPin2);     //constructor for Motors class
+//BTS7960MotorDriver driveMotors(drvMotorEnPin1, drvMotorEnPin2, drvMotorPwmPin1, drvMotorPwmPin2);     //constructor for Motors class
 
 // ----DRIVE INI  -  Initialization  in SETUP routine--------
 int redBrakeState = 0;
@@ -20,7 +20,7 @@ long redBrakeLghtTiming = 0;                // interval at which to blink (10 fa
 
 void driveIni()
 {
-	pinMode(drvMotorEnPin1,    OUTPUT);        // Set motor pins as output  - PWM PINS !
+	pinMode(drvMotorEnPin1,    OUTPUT);        // Set motor pins as output at config  - PWM PINS !
 	pinMode(drvMotorEnPin2,    OUTPUT);
 
 	pinMode(drvMotorPwmPin1,   OUTPUT);
@@ -41,16 +41,16 @@ void driveIni()
 
 
 // ---------  drive motors routine ---------------------------------
-void Drive(int dr,  int speed)   //0 =stop, 1 = forward, 2 = reverse, speed 0-255
+void Drive(int drvFlag,  int speed)   //0 =stop, 1 = forward, 2 = reverse, speed set at main routin 0 -255 max speed 
 {
 
-	if (dr == 0)
+	if (drvFlag == 0)
 	{
-		stopMotor();
+		stopMotors();
 		digitalWrite(redBrakesPin, 0);		// turn off red light not driving
 		digitalWrite(reversePin, 0);		// turn off reverse not driving
 	}
-	else if (dr == 1)			// FORWARD
+	else if (drvFlag == 1)			// FORWARD
 	{
 		driveForward(speed);
 
@@ -58,20 +58,22 @@ void Drive(int dr,  int speed)   //0 =stop, 1 = forward, 2 = reverse, speed 0-25
 		redBrakeLghtTiming = 60;			// 50-200 miliseconds = fast 2 slow 200 see in beggining of this routine 
 		lightRedBrake();					// red brake light blinking
 	}
-	else if (dr == 2)			// REVERSE
+	else if (drvFlag == 2)			// REVERSE
 	{
 		driveReverse(speed);
 
-		digitalWrite(reversePin, 1);		// turn off reverse 
+		digitalWrite(reversePin, 1);		// turn on  reverse 
 		redBrakeLghtTiming = 160;			// 50-200 miliseconds = fast 2 slow 200 see in beggining of this routine 
 		lightRedBrake();					// red brake light blinking
+
 	}
 
 
 }
 
-
-void stopMotor() {					     // stop motors
+// *********************  stop motors   *******************
+void stopMotors() 
+{					     
 	digitalWrite(drvMotorEnPin1, 0);
 	digitalWrite(drvMotorEnPin2, 0);
 
@@ -80,17 +82,17 @@ void stopMotor() {					     // stop motors
 }
 
 
+// ************************  forward   **********************
 
-
-void driveForward(int pwm) {		     // forward 
+void driveForward(int pwm) {		     
 	digitalWrite(drvMotorEnPin1, 1);
 	digitalWrite(drvMotorEnPin2, 1);
 
 	analogWrite(drvMotorPwmPin1, 0);
 	analogWrite(drvMotorPwmPin2, pwm);
 }
-
-void driveReverse(int pwm) {			// reverse
+// ************************   reverse  *************************
+void driveReverse(int pwm) {			
 	digitalWrite(drvMotorEnPin1, 1);
 	digitalWrite(drvMotorEnPin2, 1);
 
@@ -98,7 +100,8 @@ void driveReverse(int pwm) {			// reverse
 	analogWrite(drvMotorPwmPin2, 0);
 }
 
-void lightRedBrake()		 // ---- light red brake  sub routine --------
+//  ********************** light red brake  sub routine *************
+void lightRedBrake()		
 {
 	unsigned long currentRedBrakeMillis = millis();
 	if (currentRedBrakeMillis - previousRedLghtMillis >= redBrakeLghtTiming) {    // 50-200 miliseconds = fast 2 slow 200 see in beggining of this routine 
@@ -106,8 +109,7 @@ void lightRedBrake()		 // ---- light red brake  sub routine --------
 
 											// if the LED is off turn it on and vice-versa  --- valve 1 *********************************
 		if (redBrakeState == 0) redBrakeState = 1;
-		else
-			redBrakeState = 0;
+		else redBrakeState = 0;
 		digitalWrite(redBrakesPin, redBrakeState);
 	}
 }

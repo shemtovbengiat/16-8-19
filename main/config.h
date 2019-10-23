@@ -15,11 +15,11 @@
 
 // ---  I N P U T S   Motor 2 sides  -------
 
-#define btm_AirPin          A1     //sw Airpump
-#define btm_WaterPin        A2      //sw water pamp
-#define btm_VlvPin          A3     //sw vlaves-lights red
-#define btm_FanPin          A4     // rdiator fan motor 
-#define btm_neoMotrPin      A5     // neopixls motor 
+#define btm_AirPin          A1     // sw Airpump
+#define btm_WaterPin        A2     // sw water pamp
+#define battaryDeadPin      A3     // battary cutout relay
+#define btm_FanPin          A4     // fan motor radiator
+#define btm_neoMotorPin     A5	   // neopixls motor 
 
 // ---  I N P U T S  Driver panel---------------
 
@@ -33,7 +33,8 @@
 #define gearFwPin          A13     // gear forward    
 #define gearRevPin         A14     // gear reverse 
 #define drivePedalPin      A15     // push pedal drive frw rev.
-#define btmLightsPin	   48	   // front high lights 
+#define btmLightsPin	   48	   // front high lights  
+#define btmRaspbryPin	   45	   // bottom rasbery pi right to the screen   
 
 // ---  O U T P U T S   ----------
 #define valve1Pin          26      // LED 1+2 pin  // blinking motor valve pin number 
@@ -56,7 +57,7 @@
 
 #define startEngineLampPin 41	  // led whithin lamp
 #define lightsSwLampPin    42
-#define swLampPin          44     //43 ocupied - MP3,  special sw right to the screen
+#define swRaspPiLampPin    44     //43 ocupied - MP3,  raspberry Pi  sw right to the screen
 
 // ----   PWM pins 2-13  -----------
 
@@ -65,7 +66,10 @@
 #define neoTurnRPin        4    //data pin for right vinkers front and back NeoPixel - PWM
 #define neoInteriorPin     5     //data pin for interior NeoPixel - PWM
 
-// --- declare  All functions and .INO routines  ----
+#define shutDownRelayPin   6	// self maintian relay, on by tractor key and off by shut down timer 
+
+
+// --- declare  All functions and .INI routines  ----
 
 void neopixleIni();				// neopixles 
 void neoStopAll();
@@ -73,20 +77,24 @@ void neoMotorStop();
 void neoTurnRStop();
 void neoTurnLStop();
 void neoInteriorStop();
-
-void neoMotorShow();
+void neoTurn_Rshow(int colorVar);
+void neoTurn_Lshow(int colorVar);
+void neoMotorShow(int neoMotorNumber);
 void neoInteriorShow(int colorVar);
 //  -- MP-3 
 void mp3Ini();					
 void playSound(char* path);
 
-void nextSong(int i);
-void nextVocal(int i);
-void nextStarter(int i);
-void nextHorn(int i);
-void nextCommand(int i);
+void nextSong    (int i);
+void nextVocal   (int i);
+void nextStarter (int i);
+void nextHorn    (int i);
+void nextCommand (int i);
+void nextStory   (int i);
 
 // all the rest 
+void shutdownini();
+void shutdown();
 void valvesIni();
 void valves(bool valvesOn, bool valvesFast);
 void lightValves();
@@ -101,10 +109,13 @@ void waterMotor		(int waterSpeed);
 void airMotor		(int airSpeed);
 
 void driveIni();
+void Drive(int drvFlag, int speed);
 
 void action();
+void shutDownIni();
+void shutDown();
 
-void turnIni	();
+void turnIni();
 void vinkers	(bool turnLOn, bool turnROn, bool turnFast);     
 void turnLights	(bool L, bool R);
 
@@ -113,3 +124,4 @@ void starterLamp (int rate);
 void switchLamp  (int rate);
 void lightsLamp  (int rate);
 void set3Lamps   (int sw, int lght, int  start);
+

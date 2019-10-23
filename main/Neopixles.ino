@@ -5,25 +5,27 @@
 */
 
 int i = 0;
-int diplayColor = 0;     // diplay on wheel 0-red 1=green 3=yellow fault
 int colorVar = 0;
+int diplayColor = 0;     // diplay on wheel 0-red 1=green 3=yellow fault
 
 unsigned long previousInteriorMillis = 0;      // will store last time LED was updated
-long interiorTiming = 100;                     // interval at which to blink (10 fast 200 slowest in ms)
 unsigned long previousMotorMillis = 0;
+long interiorTiming = 100;                     // interval at which to blink (10 fast 200 slowest in ms)
 long motorTiming = 0;
 
-// ----------------   neopixle INITIALIZATION routine  -----------------
-void neopixleIni()
-{
-	neoMotor.begin();           // initilaze the 5 classe
+// *****************************************************************
+// *******************   neopixle INI  ruotine  ********************
+//******************************************************************
+void neopixleIni(){
+
+	neoMotor.begin();           // initilaze the 4 classe
 	neoTurnL.begin();
 	neoTurnR.begin();
 	neoInterior.begin();
 
 	neoStopAll();
 }//---END of INIT routine
-
+/*
 // **************************************************************
 // ************** Main routine to handle NEOPIXLES *************
 // **************************************************************
@@ -38,7 +40,7 @@ void runNeoPixles()
 		{
 			previousInteriorMillis = currentInteriorMillis;
 			neoInteriorShow(1);		// turn the red into green function by function
-			neoMotorShow();		    // play leds in the motor	
+			//neoMotorShow();		    // play leds in the motor	
 			//neoTurnLshow(2);			
 			//neoTurnRshow(3);
 		}
@@ -46,127 +48,85 @@ void runNeoPixles()
 	else
 	{
 		neoInteriorShow(0);		// inetirior goes RED=0 - malfunction!!
-		neoStopAll();
+		//neoStopAll();
 	}
 }
-// *********************************************************************************
-// 0-no light  1-yellow-warning light = 255,120,0  2-red 3-green 4-blue 5-random
-//***********************************************************************************
 
-void neoTurnLshow(int colorVar)
+*/// 0-no light  1-yellow-warning light = 255,120,0  2-red 3-green 4-blue 5-random
 
-{
+
+
+//*******************    turn left show     ************************************
+
+void neoTurn_Lshow(int colorVar){
+
 	if (i < neoTurnL.numPixels())
 	{
-		if (colorVar == 0)
-		{
-			neoTurnL.setPixelColor(i, 0, 0, 0);
-		}
-		else if (colorVar == 1)
-		{
-			neoTurnL.setPixelColor(i, 220, 120, 0);
-		}
-		else if (colorVar == 2)
-		{
-			neoTurnL.setPixelColor(i, 100, 0, 0);
-		}
-		else if (colorVar == 3)
-		{
-			neoTurnL.setPixelColor(i, 0, 150, 0);
-		}
-		else if (colorVar == 4)
-		{
-			neoTurnL.setPixelColor(i, 0, 0, 150);
-		}
-		else if (colorVar == 5)
-		{
-			neoTurnL.setPixelColor(i, random(0, 100), random(0, 250), random(0, 250));
-		}
+		if      (colorVar == 0)	neoTurnL.setPixelColor(i,     0, 0, 0);
 
+		else if (colorVar == 1)	neoTurnL.setPixelColor(i,   220,120,0);
+		else if (colorVar == 2)	neoTurnL.setPixelColor(i,   100, 0, 0);
+		else if (colorVar == 3)	neoTurnL.setPixelColor(i,   0, 150, 0);
+		else if (colorVar == 4) neoTurnL.setPixelColor(i,   0, 0, 150);
+		else if (colorVar == 5)	neoTurnL.setPixelColor(i,   random(0, 100), random(0, 250), random(0, 250));
 		neoTurnL.show();
 		i++;
 	}
-	else
-	{
-		i = 0;
-	}
-}
+	else  i = 0;
+} // ---------end of neo Turn Left Show routine  ------------
 
+//  ********************   turn roght show ***************************
 
-void neoTurnRshow(int colorVar)			// interior light - RED motor OFF    GREEN - motor ON
+void neoTurn_Rshow(int colorVar)			// interior light - RED motor OFF    GREEN - motor ON
 {
-	if (i < neoTurnR.numPixels())
-	{
-		if (colorVar == 0)				// 0-no light    1-yellow-warning light = 255,120,0       2-red    3-green   4-blue    5-random
-		{
-			neoTurnR.setPixelColor(i, 0, 0, 0);
-		}
-		else if (colorVar == 1)
-		{
-			neoTurnR.setPixelColor(i, 255, 120, 0);
-		}
-		else if (colorVar == 2)
-		{
-			neoTurnR.setPixelColor(i, 100, 0, 0);
-		}
-		else if (colorVar == 3)
-		{
-			neoTurnR.setPixelColor(i, 0, 150, 0);
-		}
-		else if (colorVar == 4)
-		{
-			neoTurnR.setPixelColor(i, 0, 0, 150);
-		}
-		else if (colorVar == 5)
-		{
-			neoTurnR.setPixelColor(i, random(100), random(150), random(150));
-		}
-
+	if (i < neoTurnR.numPixels()){
+					// 0-no light    1-yellow-warning light = 255,120,0       2-red    3-green   4-blue    5-random
+		
+		if (colorVar == 0)	neoTurnR.setPixelColor(i, 0, 0, 0);
+		
+		else if (colorVar == 1) neoTurnR.setPixelColor(i, 255, 120, 0);
+		else if (colorVar == 2) neoTurnR.setPixelColor(i, 100, 0, 0);
+		else if (colorVar == 3)	neoTurnR.setPixelColor(i, 0, 150, 0);
+		else if (colorVar == 4)	neoTurnR.setPixelColor(i, 0, 0, 150);
+		else if (colorVar == 5) neoTurnR.setPixelColor(i, random(100), random(150), random(150));	
 		neoTurnR.show();
 		i++;
 	}
-	else
-	{
-		i = 0;
-	}
-}
+	else i = 0;
+}// ---------end of neo Turn Right Show routine  ------------
 
 
-
+//  *********************   interior show ***********************
 
 void neoInteriorShow(int colorVar)	// interior light - 0 = RED = motor OFF   1 = GREEN = motor ON
 {
 	if (i < neoInterior.numPixels())
 	{
-		if (colorVar == 0) //RED = motor OFF
-		{
-			neoInterior.setPixelColor(i, 10, 0, 0);
-		}
-		else if (colorVar == 1) 	//GREEN = motor ON
-		{
-			neoInterior.setPixelColor(i, 0, 10, 0);
-		}
+		if		(colorVar == 0) neoInterior.setPixelColor(i, 20, 0, 0);
+		else if (colorVar == 1)	neoInterior.setPixelColor(i, 0, 10, 0);
+		else if (colorVar == 2)	neoInterior.setPixelColor(i, 0, 10, 0);
+		else if (colorVar == 3)	neoInterior.setPixelColor(i, 0, 10, 0);
+		else if (colorVar == 4)	neoInterior.setPixelColor(i, 20, 10, 0);
 		neoInterior.show();
 		i++;
 	}
-	else
-	{
-		i = 0;
-	}
+	else i = 0;
 }
+// *****************   Motor  show  ruoyine *********
 
-void neoMotorShow()
+void neoMotorShow(int neoMotorNumber)
 {
 	if (i < neoMotor.numPixels())
 	{
-		neoMotor.setPixelColor(i, random(60, 100), random(10, 100), random(40, 100));
+		if		(colorVar == 0) neoMotor.setPixelColor(i, 20, 0, 0);							// 0-   off
+		else if (colorVar == 1)	neoMotor.setPixelColor(i, 20, 0, 0);							// 1-3  rgb
+		else if (colorVar == 2)	neoMotor.setPixelColor(i, 0, 40, 0);
+		else if (colorVar == 3)	neoMotor.setPixelColor(i, 0, 0, 40);
+		else if (colorVar == 4) neoMotor.setPixelColor(i, random(40), random(40), random(40));  // 4-random
 		neoMotor.show();
 		i++;
 	}
-	else
-	{
-		i = 0;
-	}
+	else i = 0;
 }
 
 
@@ -176,13 +136,13 @@ void neoMotorShow()
 
 void neoStopAll()
 {
-	neoMotorStop   ();
-	neoTurnRStop   ();
-	neoTurnLStop   ();
-	neoInteriorStop();
+	neoMotorStop     ();
+	neoTurnRStop     ();
+	neoTurnLStop     ();
+	neoInteriorStop  ();
 }
 
-void neoMotorStop()  // ************   motor
+void neoMotorStop()  // ************   motor   ************
 {
 	for (int i = 0; i < neoMotor.numPixels(); i++)
 	{
@@ -190,7 +150,7 @@ void neoMotorStop()  // ************   motor
 	}
 	neoMotor.show();
 }
-void neoTurnLStop()	// ***********  turn l
+void neoTurnLStop()	// ***********  turn L ************
 {
 	for (int i = 0; i < neoTurnL.numPixels(); i++)
 	{
@@ -199,7 +159,7 @@ void neoTurnLStop()	// ***********  turn l
 	neoTurnL.show();
 }
 
-void neoTurnRStop()	// **********  turn R
+void neoTurnRStop()	// **********  turn R   ************
 {
 	for (int i = 0; i < neoTurnR.numPixels(); i++)
 	{
@@ -208,7 +168,7 @@ void neoTurnRStop()	// **********  turn R
 	neoTurnR.show();
 }
 
-void neoInteriorStop()	//  ************* intirior 
+void neoInteriorStop()	//  ************* intirior    ************
 {
 	for (int i = 0; i < neoInterior.numPixels(); i++)
 	{

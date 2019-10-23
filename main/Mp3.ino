@@ -1,33 +1,27 @@
 // ---- MP-3   Initialization  routine --------
 
-void mp3Ini() {
-
-#if defined(DEBUG)
+void mp3Ini() 
+{
 	Serial.println("MP3 inishlized");
-#endif
-	if (!musicPlayer.begin()) { // initialise the music player
-#if defined(DEBUG)
+
+	if (!musicPlayer.begin()) 
+	{ // initialise the music player
 		Serial.println("Couldn't find VS1053, do you have the right pins defined?");
-#endif
 		isMP3On = false;
 		return;
 	}
-#if defined(DEBUG)
 	Serial.println("MP 3  working");
-#endif
-	if (!SD.begin(mp3SDCardsPin)) {
-#if defined(DEBUG)
+	if (!SD.begin(mp3SDCardsPin)) 
+	{
 		Serial.println("SD failed, or not present");
-#endif
 		isMP3On = false;
 		return;
 	}
 	isMP3On = true;  //  initialise the music player and SD in SETUP routine
 	
-	if (isMP3On) {
-	printDirectory(SD.open("/"), 0);		// list files at setup time 
-	
-	
+	if (isMP3On) 
+	{
+	//printDirectory(SD.open("/"), 0);		// list files at setup time 
 	// Set Volume for left, right channels.  0 == Max volume ,  80 == Min volume
 	musicPlayer.setVolume(volume,volume);
 	
@@ -37,7 +31,7 @@ void mp3Ini() {
 //-------  END of MP -3  inisilaztion routine ------------
 
 /*
-   -----------this is to start a sound,  give it the path to the file
+  ******************   this is to start a sound,  give it the path to the file   ************
 */
 void playSound(char* path)
 {
@@ -96,12 +90,19 @@ void nextCommand(int i) {			// instructions
 	sprintf(str, "comnd/%d.mp3", i);
 	playSound(str);
 }
-
+void nextStory(int i) {			// instructions
+	char str[13];
+	//	musicPlayer.setVolume(volume, volume);
+	sprintf(str, "stories/%d.mp3", i);
+	playSound(str);
+}
 
 
 // ------------  File listing routine -------
-void printDirectory(File dir, int numTabs) {
-	while (true) {
+void printDirectory(File dir, int numTabs) 
+{
+	while (true) 
+	{
 
 		File entry = dir.openNextFile();
 		if (!entry) {

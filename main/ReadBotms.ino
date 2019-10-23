@@ -15,11 +15,12 @@ bool drivePedalState = 0;      // Foot Pedal for drive FRW. & REV.
 
 bool btmAirPumpState = 0;			// ---------- 8-2019 ---------
 bool btmWaterPumpState = 0;
-bool btmValvesState = 0;
+bool battaryDeadState = 0;
 bool btmFanMotorState = 0;
 bool btmLightsState = 0;
-
+bool btmRaspPiState = 0;
 bool btmNeoPixleMotorState = 0;
+
 //    -------- Last xx state ------
 bool lastbtmStartState = 0;
 bool lastbtmHornState = 0;
@@ -32,10 +33,11 @@ bool lastbtm_Fw_state = 0;
 bool lastbtm_Rev_state = 0;
 bool lastDrivePedalState = 0;
 bool lastBtmLightsState = 0;
+bool lastBtmRaspPiState = 0;
 
 bool lastAirPumpState = 0;			// 8-2019 added push bottoms paralel function with motor commands
 bool lastWaterPumpState = 0;
-bool lastValvesState = 0;
+bool lastBattaryDeadState = 0;
 bool lastFanMotorState = 0;
 bool lastNeoPixleMotorState = 0;
 
@@ -54,12 +56,13 @@ void readBottomsIni()
 	pinMode(gearFwPin,		 INPUT_PULLUP);
 	pinMode(gearRevPin,		 INPUT_PULLUP);
 	pinMode(drivePedalPin,	 INPUT_PULLUP);
-
+	pinMode(btmRaspbryPin,   INPUT_PULLUP);
+	
 	pinMode(btm_AirPin ,	 INPUT_PULLUP);    // motor panel  all bottoms with pullup resistor      
 	pinMode(btm_WaterPin ,	 INPUT_PULLUP);
-	pinMode(btm_VlvPin ,     INPUT_PULLUP);
+	pinMode(battaryDeadPin,  INPUT_PULLUP);
 	pinMode(btm_FanPin ,     INPUT_PULLUP);
-	pinMode(btm_neoMotrPin , INPUT_PULLUP);
+	pinMode(btm_neoMotorPin, INPUT_PULLUP);
 
 }// --- END of readBottoms INI rotine
 
@@ -74,10 +77,15 @@ void readBottoms()
 			if (btmStartState == LOW)
 			{
 				Serial.println(" [ START  ] ");
-				delay(20);
-				motorOn = !motorOn;
-				startBtmNumber = random(0, 18);
+				delay(15);
+				if (motorOn == 0) {
+					motorOn = 1;
+					startBtmNumber = random(0, 18);
+				}
+				else motorOn = 0;
+					 musicPlayer.pausePlaying(false);
 			}
+
 		}
 		lastbtmStartState = btmStartState;
 
@@ -237,24 +245,26 @@ void readBottoms()
 		}
 		lastWaterPumpState = btmWaterPumpState;
 
-		// ------------------------------------------- btm  Valve on motor   -- valvesMotorOn  ----------------------------
+		// ------------------------------------------- Battary Dead cut out relay  ----------------------------
 
-		btmValvesState = digitalRead(btm_VlvPin);
-		if (btmValvesState != lastValvesState)
+		battaryDeadState = digitalRead(battaryDeadPin);
+		if (battaryDeadState != lastBattaryDeadState)
 		{
-			if (btmValvesState == LOW)
+			if (battaryDeadState == LOW)
 			{
-				Serial.println("[ Valves on Motor ]");
+				Serial.println("[ Battary for motors finished ]");
 				delay(15);
-				valvesMotorOn = !valvesMotorOn;          // toggel switch !!!
+				battaryDeadOn = 1;      // no battry !! for drive motors unless push engine start also while driving !!!
+				nextCommand(99);    	//sound worning /cmnd/99.mp3 subdirectory in sd card
 			}
+			battaryDeadOn = 0;			// battry good normal functions
 		}
-		lastValvesState = btmValvesState;
+		lastBattaryDeadState = battaryDeadState;
 
 		// ------------------------------------------- btm  Fan Radiator on motor   -- fanMotorOn  ----------------------------
 
 		btmFanMotorState = digitalRead(btm_FanPin);
-		if (btmFanMotorState != lastValvesState)
+		if (btmFanMotorState != lastBattaryDeadState)
 		{
 			if (btmFanMotorState == LOW)
 			{
@@ -263,44 +273,70 @@ void readBottoms()
 				fanMotorOn = !fanMotorOn;          // toggel switch !!!
 			}
 		}
-		lastValvesState = btmFanMotorState;
+		lastBattaryDeadState = btmFanMotorState;
 
 
 
-		// ------------------------------------------- btm  NeoPixles on motor   -- neoPixleMotorOn  ----------------------------
+		// ------------------------------------------- btm  NeoPixles on motor   -- neo Motor number 1-3 rgb 4 random  ----------------------------
 
-		btmNeoPixleMotorState = digitalRead(btm_FanPin);
+		btmNeoPixleMotorState = digitalRead(btm_neoMotorPin);
 		if (btmNeoPixleMotorState != lastNeoPixleMotorState)
 		{
 			if (btmNeoPixleMotorState == LOW)
 			{
-				Serial.println("[  Motor neoPixles  ]");
 				delay(15);
-				neoPixleMotorOn = !neoPixleMotorOn;          // toggel switch !!!
+				neoMotorNumber += 1;          // toggel switch !!!
+				Serial.print(" [  leds in motor mode = ");
+				Serial.println ( neoMotorNumber);
+				if (neoMotorNumber >= 4) neoMotorNumber = 0;
 			}
 		}
 		lastNeoPixleMotorState = btmNeoPixleMotorState;
+
 
 		// -------------------------------------------------- btm  L I G H T S on off -- lightsOn lightsLamp ------------------------
 
 		btmLightsState = digitalRead(btmLightsPin);
 		if (btmLightsState != lastBtmLightsState)
 		{
-			if (btmLightsState == LOW || btmLightsState == HIGH)
+			if (btmLightsState == LOW)
 			{
 				Serial.println(" [ Lights  ] ");
 				delay(15);
 				lightsOn = !lightsOn;
-
-				nextCommand(3);   // play file # 10 in the /cmnd/x.mp3 subdirectory in sd card  - prerecorded
-          
 			}
-			
-			nextCommand(4);
-		
 		}
 		lastBtmLightsState = btmLightsState;
-	
+		// ------------------------------------------- Battary Dead cut out relay  ----------------------------
+
+		battaryDeadState = digitalRead(battaryDeadPin);
+//		Serial.println(lastBattaryDeadState);
+		if (battaryDeadState != lastBattaryDeadState)
+		{
+			if (battaryDeadState == LOW)
+			{
+				Serial.println("[ motors Battary  finished ! ]");
+				delay(15);
+				battaryDeadOn = !battaryDeadOn;          // toggel switch !!!
+			}
+		}
+		lastBattaryDeadState = battaryDeadState;
+
+		// -------------------------------------------------- Switch  rasberry  right side ------------------------
+
+		btmRaspPiState = digitalRead(btmRaspbryPin);
+		if (btmRaspPiState != lastBtmRaspPiState)
+		{
+			if (btmRaspPiState == LOW)
+			{
+				Serial.println(" [ raspberry pi bottom  ] ");
+				delay(15);
+				swRasbPiOn = !swRasbPiOn;
+			}
+		}
+		lastBtmRaspPiState = btmRaspPiState;
+
+
 }// ----END read bottoms routine   ---------------------  
 
 
