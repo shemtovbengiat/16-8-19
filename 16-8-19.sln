@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Adafruit_VS1053_Library", "
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "main", "main\main.vcxproj", "{C5F80730-F44F-4478-BDAE-6634EFC2CA88}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test vs1053", "..\..\test vs1053\test vs1053.vcxproj", "{76EAC92D-BD19-4A91-961F-DCBA7D0A3CC6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -16,6 +18,10 @@ Global
 		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Debug|x86.ActiveCfg = Debug|Win32
 		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Release|x86.ActiveCfg = Release|Win32
 		{C5F80730-F44F-4478-BDAE-6634EFC2CA88}.Release|x86.Build.0 = Release|Win32
+		{76EAC92D-BD19-4A91-961F-DCBA7D0A3CC6}.Debug|x86.ActiveCfg = Debug|Win32
+		{76EAC92D-BD19-4A91-961F-DCBA7D0A3CC6}.Debug|x86.Build.0 = Debug|Win32
+		{76EAC92D-BD19-4A91-961F-DCBA7D0A3CC6}.Release|x86.ActiveCfg = Release|Win32
+		{76EAC92D-BD19-4A91-961F-DCBA7D0A3CC6}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
